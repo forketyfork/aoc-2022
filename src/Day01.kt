@@ -1,17 +1,20 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
+    fun part1(input: List<String>): Int = caloriesList(input).max()
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    fun part2(input: List<String>): Int = caloriesList(input).sortedDescending().take(3).sum()
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    val input = readInput("Day01_test")
 
-    val input = readInput("Day01")
     println(part1(input))
     println(part2(input))
+}
+
+fun caloriesList(input: List<String>): List<Int> = input.fold(mutableListOf(0)) { calories, line ->
+    calories.apply {
+        if (line.isEmpty()) {
+            add(0)
+        } else {
+            this[calories.lastIndex] += line.toInt()
+        }
+    }
 }
