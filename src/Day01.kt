@@ -1,7 +1,7 @@
 fun main() {
-    fun part1(input: List<String>): Int = caloriesList(input).max()
+    fun part1(input: List<String>) = caloriesList(input).max()
 
-    fun part2(input: List<String>): Int = caloriesList(input).sortedDescending().take(3).sum()
+    fun part2(input: List<String>) = caloriesList(input).sortedDescending().take(3).sum()
 
     val input = readInput("Day01_test")
 
