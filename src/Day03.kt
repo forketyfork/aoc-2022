@@ -20,7 +20,7 @@ fun main() {
                     .map(Set<Char>::first)
                     .sumOf(::scorer)
 
-    val input = readInput("Day03_test")
+    val input = readLines("Day03_test")
 
     part1(input).also { println(it) }.also { check(it == 7990) }
     part2(input).also { println(it) }.also { check(it == 2602) }

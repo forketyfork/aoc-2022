@@ -3,7 +3,7 @@ fun main() {
 
     fun part2(input: List<String>) = caloriesList(input).sortedDescending().take(3).sum()
 
-    val input = readInput("Day01_test")
+    val input = readLines("Day01_test")
 
     println(part1(input))
     println(part2(input))

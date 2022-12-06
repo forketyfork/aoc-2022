@@ -54,7 +54,7 @@ class Crane(input: List<String>) {
 
 
 fun main() {
-    val input = readInput("Day05_test")
+    val input = readLines("Day05_test")
     Crane(input).part1().also { println(it) }.also { check(it == "CNSZFDVLJ") }
     Crane(input).part2().also { println(it) }.also { check(it == "QNDWLMGNS") }
 }

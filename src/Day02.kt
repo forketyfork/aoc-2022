@@ -49,7 +49,7 @@ fun main() {
         Pair(move1, move2)
     }
 
-    val input = readInput("Day02_test")
+    val input = readLines("Day02_test")
 
     part1(input).also { println(it) }.also { check(it == 13484) }
     part2(input).also { println(it) }.also { check(it == 13433) }
