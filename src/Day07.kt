@@ -17,7 +17,7 @@ class Directory(val parent: Directory?) {
     }
 }
 
-fun buildGraph(input: List<String>): Directory = Directory(null).apply {
+fun buildGraph(input: List<String>) = Directory(null).apply {
     var current: Directory = this
     input.forEach { line ->
         current = when {
