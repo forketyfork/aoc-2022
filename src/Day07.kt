@@ -43,9 +43,7 @@ fun part1(input: List<String>): Int = buildGraph(input)
 fun part2(input: List<String>): Int {
     val root = buildGraph(input)
     val excess = 30000000 - (70000000 - root.totalSize)
-    return root.find { it.totalSize >= excess }
-        .minBy { it.totalSize }
-        .totalSize
+    return root.find { it.totalSize >= excess }.minOf { it.totalSize }
 }
 
 fun main() {
