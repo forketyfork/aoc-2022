@@ -30,10 +30,8 @@ fun main() {
                                 x = part2.x + (part1.x - part2.x).sign,
                                 y = part2.y + (part1.y - part2.y).sign
                             )
-                        } else if (part1.x - part2.x == 2) part2.copy(x = part2.x + 1)
-                        else if (part1.x - part2.x == -2) part2.copy(x = part2.x - 1)
-                        else if (part1.y - part2.y == 2) part2.copy(y = part2.y + 1)
-                        else part2.copy(y = part2.y - 1)
+                        } else if (abs(part1.x - part2.x) == 2) part2.copy(x = part2.x + (part1.x - part2.x).sign)
+                        else part2.copy(y = part2.y + (part1.y - part2.y).sign)
                     }
                 }
                 positions.add(parts.last())
