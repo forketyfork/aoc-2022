@@ -17,7 +17,7 @@ fun main() {
                 "L" -> Pair(-1, 0)
                 "D" -> Pair(0, 1)
                 "U" -> Pair(0, -1)
-                else -> throw RuntimeException("Can't parse input: $line")
+                else -> error("Can't parse input: $line")
             }
             repeat(steps) {
                 parts[0] = parts[0].copy(x = parts[0].x + dx, y = parts[0].y + dy)
