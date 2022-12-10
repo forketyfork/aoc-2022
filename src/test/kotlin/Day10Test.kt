@@ -1,3 +1,4 @@
+import Utils.Companion.cases
 import Utils.Companion.readTestFile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
@@ -8,21 +9,23 @@ class Day10Test {
 
     companion object {
         @JvmStatic
-        fun data() = arrayOf(
-            Arguments.of("Day10_sample1", 0, "█████"),
-            Arguments.of(
-                "Day10_sample2", 13140, """
-                ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  
-                ███   ███   ███   ███   ███   ███   ███ 
-                ████    ████    ████    ████    ████    
-                █████     █████     █████     █████     
-                ██████      ██████      ██████      ████
-                ███████       ███████       ███████     
-                
-            """.trimIndent()
+        fun data() = cases(
+            arrayOf(
+                Arguments.of("Day10_sample1", 0, "█████"),
+                Arguments.of(
+                    "Day10_sample2", 13140, """
+                    ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  
+                    ███   ███   ███   ███   ███   ███   ███ 
+                    ████    ████    ████    ████    ████    
+                    █████     █████     █████     █████     
+                    ██████      ██████      ██████      ████
+                    ███████       ███████       ███████     
+                    
+                """.trimIndent()
+                )
             ),
             Arguments.of(
-                "Day10_test.txt", 12520, """
+                "Day10_personal", 12520, """
                 ████ █  █ ███  ████ ███    ██  ██  █    
                 █    █  █ █  █    █ █  █    █ █  █ █    
                 ███  ████ █  █   █  █  █    █ █    █    

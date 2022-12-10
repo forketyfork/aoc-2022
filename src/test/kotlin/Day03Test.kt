@@ -1,3 +1,4 @@
+import Utils.Companion.cases
 import Utils.Companion.readTestFile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
@@ -8,9 +9,11 @@ class Day03Test {
 
     companion object {
         @JvmStatic
-        fun data() = arrayOf(
-            Arguments.of("Day03_sample", 157, 70),
-            Arguments.of("Day03_test.txt", 7990, 2602)
+        fun data() = cases(
+            arrayOf(
+                Arguments.of("Day03_sample", 157, 70)
+            ),
+            Arguments.of("Day03_personal", 7990, 2602)
         )
     }
 
