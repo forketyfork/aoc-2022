@@ -36,7 +36,7 @@ fun buildGraph(input: List<String>) = Directory(null).apply {
     updateTotalSizes()
 }
 
-fun part1(input: List<String>): Int = buildGraph(input)
+fun solution(input: List<String>): Int = buildGraph(input)
     .find { it.totalSize <= 100000 }
     .sumOf { it.totalSize }
 
@@ -50,6 +50,6 @@ fun main() {
 
     val input = readLines("Day07_test")
 
-    part1(input).also { println(it) }.also { check(it == 1390824) }
+    solution(input).also { println(it) }.also { check(it == 1390824) }
     part2(input).also { println(it) }.also { check(it == 7490863) }
 }
