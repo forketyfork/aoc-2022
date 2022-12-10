@@ -1,5 +1,6 @@
 import java.util.concurrent.atomic.AtomicInteger
 
+@OptIn(ExperimentalStdlibApi::class)
 class Day08 {
 
     fun part1(input: String): Int {
@@ -33,16 +34,16 @@ class Day08 {
 
     fun part2(input: String): Int {
         val array = input.lines().map { it.chars().toArray() }.toTypedArray()
-        return (1 until array.lastIndex).maxOf { i ->
-            (1 until array.lastIndex).maxOf { j ->
+        return (1..<array.lastIndex).maxOf { i ->
+            (1..<array.lastIndex).maxOf { j ->
                 val height = array[i][j]
                 var left = (i - 1 downTo 0).takeWhile { array[it][j] < height }.size
                 if (left < i) left++
-                var right = (i + 1 until array.size).takeWhile { array[it][j] < height }.size
+                var right = (i + 1..<array.size).takeWhile { array[it][j] < height }.size
                 if (right < array.lastIndex - i) right++
                 var top = (j - 1 downTo 0).takeWhile { array[i][it] < height }.size
                 if (top < j) top++
-                var bottom = (j + 1 until array.size).takeWhile { array[i][it] < height }.size
+                var bottom = (j + 1..<array.size).takeWhile { array[i][it] < height }.size
                 if (bottom < array.lastIndex - j) bottom++
                 left * right * top * bottom
             }

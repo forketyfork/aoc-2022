@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm") version "1.7.22"
+    kotlin("jvm") version "1.8.0-RC"
 }
 
 repositories {
@@ -27,3 +29,7 @@ tasks {
     }
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.languageVersion = "1.8"
+    kotlinOptions.jvmTarget = "19"
+}
