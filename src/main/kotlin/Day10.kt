@@ -1,5 +1,3 @@
-import java.io.PrintStream
-
 class Day10 {
 
     fun solution(input: String): Pair<Int, String> {

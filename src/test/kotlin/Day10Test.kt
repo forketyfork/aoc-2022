@@ -1,6 +1,7 @@
 import Utils.Companion.readTestFile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class Day10Test {
@@ -8,8 +9,9 @@ class Day10Test {
     companion object {
         @JvmStatic
         fun data() = arrayOf(
-            arrayOf("Day10_sample1", 0, "█████"),
-            arrayOf("Day10_sample2", 13140, """
+            Arguments.of("Day10_sample1", 0, "█████"),
+            Arguments.of(
+                "Day10_sample2", 13140, """
                 ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  
                 ███   ███   ███   ███   ███   ███   ███ 
                 ████    ████    ████    ████    ████    
@@ -17,8 +19,10 @@ class Day10Test {
                 ██████      ██████      ██████      ████
                 ███████       ███████       ███████     
                 
-            """.trimIndent()),
-            arrayOf("Day10_test.txt", 12520, """
+            """.trimIndent()
+            ),
+            Arguments.of(
+                "Day10_test.txt", 12520, """
                 ████ █  █ ███  ████ ███    ██  ██  █    
                 █    █  █ █  █    █ █  █    █ █  █ █    
                 ███  ████ █  █   █  █  █    █ █    █    
@@ -26,7 +30,8 @@ class Day10Test {
                 █    █  █ █    █    █    █  █ █  █ █    
                 ████ █  █ █    ████ █     ██   ███ ████ 
                 
-            """.trimIndent())
+            """.trimIndent()
+            )
         )
     }
 

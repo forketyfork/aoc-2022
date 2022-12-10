@@ -1,9 +1,9 @@
 import java.util.concurrent.atomic.AtomicInteger
 
-fun main() {
+class Day08 {
 
-    fun part1(input: List<String>): Int {
-        val array = input.map { it.chars().toArray() }.toTypedArray()
+    fun part1(input: String): Int {
+        val array = input.lines().map { it.chars().toArray() }.toTypedArray()
 
         val visibility = Array(array.size) {
             Array(array[0].size) { false }
@@ -31,8 +31,8 @@ fun main() {
         return count
     }
 
-    fun part2(input: List<String>): Int {
-        val array = input.map { it.chars().toArray() }.toTypedArray()
+    fun part2(input: String): Int {
+        val array = input.lines().map { it.chars().toArray() }.toTypedArray()
         return (1 until array.lastIndex).maxOf { i ->
             (1 until array.lastIndex).maxOf { j ->
                 val height = array[i][j]
@@ -48,9 +48,4 @@ fun main() {
             }
         }
     }
-
-    val input = readLines("Day08_test")
-
-    part1(input).also { println(it) }.also { check(it == 1798) }
-    part2(input).also { println(it) }.also { check(it == 259308) }
 }

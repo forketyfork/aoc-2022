@@ -1,17 +1,18 @@
 import java.util.*
 
-
-class Crane(input: List<String>) {
+class Day05(input: String) {
 
     data class CrateMove(val num: Int, val from: Int, val to: Int)
 
-    private val emptyLine = input.indexOfFirst { it.isEmpty() }
+    private val lines = input.lines()
 
-    private val stacks = input.parseStacks()
+    private val emptyLine = lines.indexOfFirst { it.isEmpty() }
+
+    private val stacks = lines.parseStacks()
 
     private val regex = Regex("\\d+")
 
-    private val moves: List<CrateMove> = input.drop(emptyLine + 1).map(::parseCrateMove)
+    private val moves: List<CrateMove> = lines.drop(emptyLine + 1).map(::parseCrateMove)
     private fun List<String>.parseStacks() = MutableList<Stack<Char>>((first().length + 1) / 4) { Stack() }
         .also { stacks ->
             take(emptyLine - 1).reversed()
@@ -53,8 +54,3 @@ class Crane(input: List<String>) {
 }
 
 
-fun main() {
-    val input = readLines("Day05_test")
-    Crane(input).part1().also { println(it) }.also { check(it == "CNSZFDVLJ") }
-    Crane(input).part2().also { println(it) }.also { check(it == "QNDWLMGNS") }
-}

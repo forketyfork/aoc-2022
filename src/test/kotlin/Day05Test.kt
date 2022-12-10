@@ -4,21 +4,21 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class Day02Test {
+class Day05Test {
 
     companion object {
         @JvmStatic
         fun data() = arrayOf(
-            Arguments.of("Day02_sample", 15, 12),
-            Arguments.of("Day02_test.txt", 13484, 13433)
+            Arguments.of("Day05_sample", "CMZ", "MCD"),
+            Arguments.of("Day05_test.txt", "CNSZFDVLJ", "QNDWLMGNS")
         )
     }
 
     @ParameterizedTest(name = "File {0}, part 1 answer = {1}, part 2 answer = {2}")
     @MethodSource("data")
-    fun test(file: String, part1Answer: Int, part2Answer: Int) {
+    fun test(file: String, part1Answer: String, part2Answer: String) {
         val contents = readTestFile(file)
-        assertThat(Day02().part1(contents)).isEqualTo(part1Answer)
-        assertThat(Day02().part2(contents)).isEqualTo(part2Answer)
+        assertThat(Day05(contents).part1()).isEqualTo(part1Answer)
+        assertThat(Day05(contents).part2()).isEqualTo(part2Answer)
     }
 }

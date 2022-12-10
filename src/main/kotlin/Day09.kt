@@ -1,15 +1,15 @@
 import kotlin.math.abs
 import kotlin.math.sign
 
-fun main() {
+class Day09 {
 
     data class Position(val x: Int, val y: Int)
 
-    fun solution(input: List<String>, len: Int): Int {
+    private fun solution(input: String, len: Int): Int {
         val positions = mutableSetOf<Position>()
         val parts = MutableList(len) { Position(0, 0) }
         positions.add(parts.last())
-        input.forEach { line ->
+        input.lines().forEach { line ->
             val direction = line.substringBefore(" ")
             val steps = line.substringAfter(" ").toInt()
             val (dx, dy) = when (direction) {
@@ -41,12 +41,7 @@ fun main() {
 
     }
 
-    fun part2(input: List<String>) = solution(input, 10)
+    fun part2(input: String) = solution(input, 10)
 
-    fun part1(input: List<String>) = solution(input, 2)
-
-    val input = readLines("Day09_test")
-
-    part1(input).also { println(it) }.also { check(it == 6406) }
-    part2(input).also { println(it) }.also { check(it == 2643) }
+    fun part1(input: String) = solution(input, 2)
 }

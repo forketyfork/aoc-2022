@@ -4,13 +4,13 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class Day02Test {
+class Day08Test {
 
     companion object {
         @JvmStatic
         fun data() = arrayOf(
-            Arguments.of("Day02_sample", 15, 12),
-            Arguments.of("Day02_test.txt", 13484, 13433)
+            Arguments.of("Day08_sample", 21, 8),
+            Arguments.of("Day08_test.txt", 1798, 259308)
         )
     }
 
@@ -18,7 +18,7 @@ class Day02Test {
     @MethodSource("data")
     fun test(file: String, part1Answer: Int, part2Answer: Int) {
         val contents = readTestFile(file)
-        assertThat(Day02().part1(contents)).isEqualTo(part1Answer)
-        assertThat(Day02().part2(contents)).isEqualTo(part2Answer)
+        assertThat(Day08().part1(contents)).isEqualTo(part1Answer)
+        assertThat(Day08().part2(contents)).isEqualTo(part2Answer)
     }
 }

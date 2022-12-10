@@ -1,6 +1,7 @@
 import Utils.Companion.readTestFile
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class Day03Test {
@@ -8,8 +9,8 @@ class Day03Test {
     companion object {
         @JvmStatic
         fun data() = arrayOf(
-            arrayOf("Day03_sample", 157, 70),
-            arrayOf("Day03_test.txt", 7990, 2602)
+            Arguments.of("Day03_sample", 157, 70),
+            Arguments.of("Day03_test.txt", 7990, 2602)
         )
     }
 
