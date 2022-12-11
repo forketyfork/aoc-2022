@@ -32,4 +32,5 @@ tasks {
 tasks.withType<KotlinCompile> {
     kotlinOptions.languageVersion = "1.8"
     kotlinOptions.jvmTarget = "19"
+    kotlinOptions.freeCompilerArgs = listOf("-Xuse-k2")
 }
