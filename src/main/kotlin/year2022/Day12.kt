@@ -1,5 +1,7 @@
 package year2022
 
+import utils.Direction.*
+import utils.letterIndex
 import kotlin.math.min
 
 class Node(val elevation: Int) {
@@ -10,8 +12,6 @@ class Node(val elevation: Int) {
 }
 
 class Day12 {
-
-    private val steps = arrayOf(Pair(-1, 0), Pair(1, 0), Pair(0, -1), Pair(0, 1))
 
     private fun bfs(
         input: String,
@@ -28,7 +28,7 @@ class Day12 {
                     when (char) {
                         'S' -> sElevation
                         'E' -> 26
-                        else -> char - 'a'
+                        else -> char.letterIndex
                     }
                 ).also {
                     if (startNodeSelector(it)) {
@@ -41,7 +41,7 @@ class Day12 {
 
         nodeArray.forEachIndexed { row, nodes ->
             nodes.forEachIndexed { col, node ->
-                steps.forEach { (dx, dy) ->
+                arrayOf(LEFT, RIGHT, UP, DOWN).forEach { (dx, dy) ->
                     val row1 = row + dx
                     val col1 = col + dy
                     if (row1 in nodeArray.indices && col1 in nodeArray[0].indices

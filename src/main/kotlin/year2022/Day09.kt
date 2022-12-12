@@ -1,26 +1,19 @@
 package year2022
 
+import utils.Direction
+import utils.Point
 import kotlin.math.abs
 import kotlin.math.sign
 
 class Day09 {
 
-    data class Position(val x: Int, val y: Int)
-
     private fun solution(input: String, len: Int): Int {
-        val positions = mutableSetOf<Position>()
-        val parts = MutableList(len) { Position(0, 0) }
+        val positions = mutableSetOf<Point>()
+        val parts = MutableList(len) { Point(0, 0) }
         positions.add(parts.last())
         input.lines().forEach { line ->
-            val direction = line.substringBefore(" ")
             val steps = line.substringAfter(" ").toInt()
-            val (dx, dy) = when (direction) {
-                "R" -> Pair(1, 0)
-                "L" -> Pair(-1, 0)
-                "D" -> Pair(0, 1)
-                "U" -> Pair(0, -1)
-                else -> error("Can't parse input: $line")
-            }
+            val (dx, dy) = Direction.byFirstLetter(line.substringBefore(" ")[0])
             repeat(steps) {
                 parts[0] = parts[0].copy(x = parts[0].x + dx, y = parts[0].y + dy)
                 parts.indices.windowed(2, partialWindows = false).forEach { (i1, i2) ->

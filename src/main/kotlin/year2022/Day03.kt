@@ -1,11 +1,10 @@
 package year2022
 
+import utils.letterIndex
+
 class Day03 {
 
-    private fun scorer(ch: Char) = 1 + when (ch) {
-        in ('a'..'z') -> ch - 'a'
-        else -> 26 + (ch - 'A')
-    }
+    private fun scorer(ch: Char) = ch.letterIndex + 1
 
     fun part1(input: String) =
         input.lines().asSequence()

@@ -54,5 +54,3 @@ class Day05(input: String) {
     }
 
 }
-
-
