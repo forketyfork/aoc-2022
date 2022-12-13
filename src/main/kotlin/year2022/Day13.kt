@@ -33,11 +33,11 @@ private fun List<*>.compareTo(other: List<*>): Int {
 class Day13 {
 
     fun part1(input: String) = input.split("\n\n")
-        .mapIndexed(::Pair)
-        .filter { pair ->
-            val (array1, array2) = pair.second.split("\n").map(::parse)
+        .withIndex()
+        .filter {
+            val (array1, array2) = it.value.split("\n").map(::parse)
             array1.compareTo(array2) <= 0
-        }.sumOf { it.first + 1 }
+        }.sumOf { it.index + 1 }
 
     fun part2(input: String): Int {
 

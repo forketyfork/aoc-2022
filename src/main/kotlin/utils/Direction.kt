@@ -14,6 +14,14 @@ enum class Direction(private val dx: Int, private val dy: Int) {
     companion object {
         fun byFirstLetter(letter: Char): Direction =
             Direction.values().find { it.name.startsWith(letter.uppercaseChar()) }!!
+
+        fun byArrow(arrow: Char): Direction = when (arrow) {
+            '>' -> RIGHT
+            '<' -> LEFT
+            '^' -> UP
+            'v' -> DOWN
+            else -> error("Unknown direction: $arrow")
+        }
     }
 
 }
