@@ -39,6 +39,23 @@ class Day13 {
             array1.compareTo(array2) <= 0
         }.sumOf { it.first + 1 }
 
+    fun part2(input: String): Int {
+
+        val marker1 = listOf(listOf(2))
+        val marker2 = listOf(listOf(6))
+
+        val lines = input.lines().asSequence()
+            .filter { it.isNotEmpty() }
+            .map(::parse)
+            .plus(marker1)
+            .plus(marker2)
+            .sortedWith(List<*>::compareTo)
+            .toList()
+
+        return (1 + lines.indexOfFirst { it.compareTo(marker1) == 0 }) *
+                (1 + lines.indexOfFirst { it.compareTo(marker2) == 0 })
+    }
+
     private fun parse(line: String): List<*> {
 
         val stack = ArrayDeque<MutableList<Any>>()
@@ -71,23 +88,6 @@ class Day13 {
             }
         }
         return current[0] as List<*>
-    }
-
-    fun part2(input: String): Int {
-
-        val marker1 = listOf(listOf(2))
-        val marker2 = listOf(listOf(6))
-
-        val lines = input.lines().asSequence()
-            .filter { it.isNotEmpty() }
-            .map(::parse)
-            .plus(marker1)
-            .plus(marker2)
-            .sortedWith(List<*>::compareTo)
-            .toList()
-
-        return (1 + lines.indexOfFirst { it.compareTo(marker1) == 0 }) *
-                (1 + lines.indexOfFirst { it.compareTo(marker2) == 0 })
     }
 
 }
