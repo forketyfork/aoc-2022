@@ -4,6 +4,8 @@ data class Point(val x: Int, val y: Int) {
 
     fun move(dir: Direction) = dir.let { (dx, dy) -> copy(x = x + dx, y = y + dy) }
 
+    fun move(dx: Int, dy: Int) = copy(x = x + dx, y = y + dy)
+
     companion object {
         val ORIGIN = Point(0, 0)
         fun parse(string: String): Point {

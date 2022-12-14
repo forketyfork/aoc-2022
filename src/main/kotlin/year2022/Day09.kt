@@ -15,18 +15,15 @@ class Day09 {
             val steps = line.substringAfter(" ").toInt()
             val (dx, dy) = Direction.byFirstLetter(line.substringBefore(" ")[0])
             repeat(steps) {
-                parts[0] = parts[0].copy(x = parts[0].x + dx, y = parts[0].y + dy)
+                parts[0] = parts[0].move(dx, dy)
                 parts.indices.windowed(2, partialWindows = false).forEach { (i1, i2) ->
                     val part1 = parts[i1]
                     val part2 = parts[i2]
                     if (abs(part1.y - part2.y) >= 2 || abs(part1.x - part2.x) >= 2) {
                         parts[i2] = if (part1.x != part2.x && part1.y != part2.y) {
-                            part2.copy(
-                                x = part2.x + (part1.x - part2.x).sign,
-                                y = part2.y + (part1.y - part2.y).sign
-                            )
-                        } else if (abs(part1.x - part2.x) == 2) part2.copy(x = part2.x + (part1.x - part2.x).sign)
-                        else part2.copy(y = part2.y + (part1.y - part2.y).sign)
+                            part2.move((part1.x - part2.x).sign, (part1.y - part2.y).sign)
+                        } else if (abs(part1.x - part2.x) == 2) part2.move((part1.x - part2.x).sign, 0)
+                        else part2.move(0, (part1.y - part2.y).sign)
                     }
                 }
                 positions.add(parts.last())
