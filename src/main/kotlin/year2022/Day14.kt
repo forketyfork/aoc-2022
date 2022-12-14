@@ -5,6 +5,8 @@ import utils.Point
 
 class Day14 {
 
+    private val origin = Point(500, 0)
+
     private fun parse(input: String): MutableSet<Point> = buildSet {
         input.lines().forEach { line ->
             line.split(" -> ")
@@ -36,14 +38,14 @@ class Day14 {
         val yRange = (0..set.maxOf { it.y })
         var count = 0
         while (true) {
-            var sand = Point(500, 0)
+            var sand = origin
             while (true) {
-                sand = if (!set.contains(sand.copy(y = sand.y + 1))) {
-                    sand.copy(y = sand.y + 1)
-                } else if (!set.contains(sand.copy(x = sand.x - 1, y = sand.y + 1))) {
-                    sand.copy(x = sand.x - 1, y = sand.y + 1)
-                } else if (!set.contains(sand.copy(x = sand.x + 1, y = sand.y + 1))) {
-                    sand.copy(x = sand.x + 1, y = sand.y + 1)
+                sand = if (!set.contains(sand.move(DOWN))) {
+                    sand.move(DOWN)
+                } else if (!set.contains(sand.move(DOWN).move(LEFT))) {
+                    sand.move(DOWN).move(LEFT)
+                } else if (!set.contains(sand.move(DOWN).move(RIGHT))) {
+                    sand.move(DOWN).move(RIGHT)
                 } else {
                     count++
                     set.add(sand)
@@ -61,17 +63,17 @@ class Day14 {
         val bottom = set.maxOf { it.y } + 1
         var count = 0
         while (true) {
-            var sand = Point(500, 0)
+            var sand = origin
             while (true) {
-                sand = if (!set.contains(sand.copy(y = sand.y + 1))) {
-                    sand.copy(y = sand.y + 1)
-                } else if (!set.contains(sand.copy(x = sand.x - 1, y = sand.y + 1))) {
-                    sand.copy(y = sand.y + 1, x = sand.x - 1)
-                } else if (!set.contains(sand.copy(x = sand.x + 1, y = sand.y + 1))) {
-                    sand.copy(x = sand.x + 1, y = sand.y + 1)
+                sand = if (!set.contains(sand.move(DOWN))) {
+                    sand.move(DOWN)
+                } else if (!set.contains(sand.move(DOWN).move(LEFT))) {
+                    sand.move(DOWN).move(LEFT)
+                } else if (!set.contains(sand.move(DOWN).move(RIGHT))) {
+                    sand.move(DOWN).move(RIGHT)
                 } else {
                     count++
-                    if (sand == Point(500, 0)) {
+                    if (sand == origin) {
                         return count
                     }
                     set.add(sand)
