@@ -42,10 +42,10 @@ class Day14 {
             while (true) {
                 sand = if (!set.contains(sand.move(DOWN))) {
                     sand.move(DOWN)
-                } else if (!set.contains(sand.move(DOWN).move(LEFT))) {
-                    sand.move(DOWN).move(LEFT)
-                } else if (!set.contains(sand.move(DOWN).move(RIGHT))) {
-                    sand.move(DOWN).move(RIGHT)
+                } else if (!set.contains(sand.move(LEFT_DOWN))) {
+                    sand.move(LEFT_DOWN)
+                } else if (!set.contains(sand.move(RIGHT_DOWN))) {
+                    sand.move(RIGHT_DOWN)
                 } else {
                     count++
                     set.add(sand)
@@ -67,10 +67,10 @@ class Day14 {
             while (true) {
                 sand = if (!set.contains(sand.move(DOWN))) {
                     sand.move(DOWN)
-                } else if (!set.contains(sand.move(DOWN).move(LEFT))) {
-                    sand.move(DOWN).move(LEFT)
-                } else if (!set.contains(sand.move(DOWN).move(RIGHT))) {
-                    sand.move(DOWN).move(RIGHT)
+                } else if (!set.contains(sand.move(LEFT_DOWN))) {
+                    sand.move(LEFT_DOWN)
+                } else if (!set.contains(sand.move(RIGHT_DOWN))) {
+                    sand.move(RIGHT_DOWN)
                 } else {
                     count++
                     if (sand == origin) {
