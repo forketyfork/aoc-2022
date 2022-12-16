@@ -50,23 +50,19 @@ class Day16(input: String) {
 
     private val startNode = nodes.find { it.name == "AA" }!!
 
-    private fun maxPath(opened: Set<ValveNode>, node: ValveNode, steps: Int, sum: Int, open: Int): Int = when {
-        steps < 0 -> 0
-        steps == 0 -> sum
-        else -> {
-            val nextOpened = opened.plus(node)
-            node.distanceMap.filter { (key, _) -> !opened.contains(key) }
-                .map { (nextNode, distance) ->
-                    maxPath(
-                        nextOpened,
-                        nextNode,
-                        steps - (distance + 1),
-                        sum + (distance + 1) * open,
-                        open + nextNode.flowRate
-                    )
-                }.plus(sum + steps * open)
-                .max()
-        }
+    private fun maxPath(opened: Set<ValveNode>, node: ValveNode, steps: Int, sum: Int, open: Int): Int {
+        val nextOpened = opened.plus(node)
+        return node.distanceMap.filter { (key, distance) -> !opened.contains(key) && distance <= steps - 1 }
+            .map { (nextNode, distance) ->
+                maxPath(
+                    nextOpened,
+                    nextNode,
+                    steps - (distance + 1),
+                    sum + (distance + 1) * open,
+                    open + nextNode.flowRate
+                )
+            }.plus(sum + steps * open)
+            .max()
     }
 
     fun part1() = maxPath(emptySet(), startNode, 30, 0, 0)
