@@ -1,11 +1,14 @@
 package year2022
 
+import utils.isOdd
+
 data class ValveNode(val name: String) {
     var flowRate = 0
     var neighbors = mutableListOf<ValveNode>()
     val distanceMap: MutableMap<ValveNode, Int> = mutableMapOf()
 }
 
+@OptIn(ExperimentalStdlibApi::class)
 class Day16(input: String) {
 
     private val regex = """Valve (..) has flow rate=(\d*); tunnels? leads? to valves? (.*)""".toRegex()
@@ -22,9 +25,11 @@ class Day16(input: String) {
         }
     }
 
+    private val valves = nodes.filter { it.flowRate > 0 }.toSet()
+
     init {
         // calculating distances between non-zero flow valves
-        nodes.filter { it.flowRate > 0 }.forEach { root ->
+        valves.forEach { root ->
             root.distanceMap[root] = 0
             with(ArrayDeque<ValveNode>()) {
                 add(root)
@@ -63,6 +68,12 @@ class Day16(input: String) {
 
     fun part1() = maxPath(emptySet(), startNode, 30, 0, 0)
 
-    fun part2() = 0 // TODO
+    fun part2() = (1..<(1 shl valves.size - 1))
+        .maxOf { setDescriptor ->
+            val me = valves.filterIndexed { idx, _ -> (setDescriptor shr idx).isOdd() }.toSet()
+            val elephant = valves.subtract(me)
+            maxPath(elephant, startNode, 26, 0, 0) +
+                    maxPath(me, startNode, 26, 0, 0)
+        }
 
 }

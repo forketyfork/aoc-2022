@@ -13,9 +13,9 @@ class Day16Test {
         @JvmStatic
         fun data() = cases(
             arrayOf(
-                Arguments.of("year2022/Day16_sample", 1651, 0 /*1707*/)
+                Arguments.of("year2022/Day16_sample", 1651, 1707)
             ),
-            Arguments.of("year2022/Day16_personal", 2320, 0)
+            Arguments.of("year2022/Day16_personal", 2320, 2967)
         )
     }
 
