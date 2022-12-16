@@ -23,6 +23,7 @@ class Day16(input: String) {
     }
 
     init {
+        // calculating distances between non-zero flow valves
         nodes.filter { it.flowRate > 0 }.forEach { root ->
             root.distanceMap[root] = 0
             with(ArrayDeque<ValveNode>()) {
