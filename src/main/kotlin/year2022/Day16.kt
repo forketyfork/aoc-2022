@@ -72,8 +72,7 @@ class Day16(input: String) {
         .maxOf { setDescriptor ->
             val me = valves.filterIndexed { idx, _ -> (setDescriptor shr idx).isOdd() }.toSet()
             val elephant = valves.subtract(me)
-            maxPath(elephant, startNode, 26, 0, 0) +
-                    maxPath(me, startNode, 26, 0, 0)
+            maxPath(elephant, startNode, 26, 0, 0) + maxPath(me, startNode, 26, 0, 0)
         }
 
 }
