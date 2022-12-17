@@ -32,5 +32,7 @@ tasks {
 tasks.withType<KotlinCompile> {
     kotlinOptions.languageVersion = "1.8"
     kotlinOptions.jvmTarget = "19"
-    kotlinOptions.freeCompilerArgs = listOf("-Xuse-k2")
+    kotlinOptions.freeCompilerArgs = listOf("-Xuse-k2", "-opt-in=kotlin.ExperimentalStdlibApi")
+    kotlinOptions.freeCompilerArgs += "-opt-in=org.mylibrary.OptInAnnotation"
+
 }

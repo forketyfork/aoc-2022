@@ -1,6 +1,7 @@
 package year2022
 
 import utils.isOdd
+import utils.powerSetSequence
 
 data class ValveNode(val name: String) {
     var flowRate = 0
@@ -8,7 +9,6 @@ data class ValveNode(val name: String) {
     val distanceMap: MutableMap<ValveNode, Int> = mutableMapOf()
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 class Day16(input: String) {
 
     private val regex = """Valve (..) has flow rate=(\d*); tunnels? leads? to valves? (.*)""".toRegex()
@@ -67,9 +67,8 @@ class Day16(input: String) {
 
     fun part1() = maxPath(emptySet(), startNode, 30, 0, 0)
 
-    fun part2() = (1..<(1 shl valves.size - 1))
-        .maxOf { setDescriptor ->
-            val me = valves.filterIndexed { idx, _ -> (setDescriptor shr idx).isOdd() }.toSet()
+    fun part2() = valves.powerSetSequence()
+        .maxOf { me ->
             val elephant = valves.subtract(me)
             maxPath(elephant, startNode, 26, 0, 0) + maxPath(me, startNode, 26, 0, 0)
         }

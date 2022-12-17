@@ -2,7 +2,6 @@ package year2022
 
 import java.util.concurrent.atomic.AtomicInteger
 
-@OptIn(ExperimentalStdlibApi::class)
 class Day08 {
 
     fun part1(input: String): Int {
