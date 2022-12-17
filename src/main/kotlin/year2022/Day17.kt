@@ -3,26 +3,16 @@ package year2022
 import utils.Direction
 import utils.Direction.LEFT
 import utils.Direction.RIGHT
+import utils.isEven
 
 class Day17 {
 
-    private fun printBucket(bucket: List<Int>, figure: List<Int>, figurePos: Int) {
-        for (i in bucket.size downTo 1) {
-            print("🟦")
-            repeat(7) {
-                if (i >= figurePos && i - figurePos < figure.size && figure[i - figurePos] and (0b1000000 shr it) != 0) {
-                    print("🟥")
-                } else if (i < bucket.size && bucket[i] and (0b1000000 shr it) != 0) {
-                    print("⬜")
-                } else {
-                    print("⬛️")
-                }
-            }
-            println("🟦")
+    private fun List<Int>.shiftLeft() = map { it shl 1 }
+    private fun List<Int>.shiftRight() = map { it shr 1 }
 
-        }
-        println("🟦🟦🟦🟦🟦🟦🟦🟦🟦")
-    }
+    private fun List<Int>.canShiftLeft() = all { it < 0b1000000 }
+    private fun List<Int>.canShiftRight() = all(Int::isEven)
+    private fun List<Int>.overlaps(other: List<Int>) = zip(other).any { (first, second) -> first and second != 0 }
 
     fun part1(input: String): Int {
         val directions = input.map(Direction::byArrow)
@@ -52,60 +42,68 @@ class Day17 {
                 0b0011000
             )
         )
+
         var dirPtr = 0
         var figurePtr = 0
+
         repeat(2022) {
-            println("The ${it + 1} rock begins falling")
+
             var figure = figures[figurePtr].toList()
             repeat(3 + figure.size) { bucket.add(0) }
-            var figurePos = bucket.size - figure.size
-            printBucket(bucket, figure, figurePos)
+            var figureRow = bucket.size - figure.size
+
+            printBucket(bucket, figure, figureRow)
+
             while (true) {
                 when (directions[dirPtr]) {
-                    LEFT -> if (figure.all { row -> row and 0b1000000 == 0 }
-                        && figure.filterIndexed { idx, row -> (row shl 1) and bucket[figurePos + idx] != 0 }.isEmpty()
+                    LEFT -> if (figure.canShiftLeft()
+                        && !figure.shiftLeft().overlaps(bucket.subList(figureRow, figureRow + figure.size))
                     ) {
-                        figure = figure.map { it shl 1 }
-                        println("Jet of gas pushes rock left")
-                        printBucket(bucket, figure, figurePos)
-                    } else {
-                        println("Jet of gas pushes rock left but nothing happens")
-                        printBucket(bucket, figure, figurePos)
+                        figure = figure.shiftLeft()
                     }
 
-                    RIGHT -> if (figure.all { row -> row and 0b0000001 == 0 }
-                        && figure.filterIndexed { idx, row -> (row shr 1) and bucket[figurePos + idx] != 0 }.isEmpty()
+                    RIGHT -> if (figure.canShiftRight()
+                        && !figure.shiftRight().overlaps(bucket.subList(figureRow, figureRow + figure.size))
                     ) {
-                        figure = figure.map { it shr 1 }
-                        println("Jet of gas pushes rock right")
-                        printBucket(bucket, figure, figurePos)
-                    } else {
-                        println("Jet of gas pushes rock right but nothing happens")
-                        printBucket(bucket, figure, figurePos)
+                        figure = figure.shiftRight()
                     }
 
                     else -> error("")
                 }
                 dirPtr = (dirPtr + 1) % directions.size
-                figurePos--
-                if (figure.first() and bucket[figurePos] != 0) {
-                    figurePos++
-                    println("Rock falls 1 unit, causing it to come to rest")
-                    printBucket(bucket, figure, figurePos)
+                figureRow--
+                if (figure.first() and bucket[figureRow] != 0) {
+                    figureRow++
                     break
                 }
-                println("Rock falls 1 unit")
-                printBucket(bucket, figure, figurePos)
             }
             for (row in figure) {
-                bucket[figurePos] = bucket[figurePos++] or row
+                bucket[figureRow] = bucket[figureRow++] or row
             }
             while (bucket.last() == 0) {
                 bucket.removeLast()
             }
             figurePtr = (figurePtr + 1) % figures.size
         }
+
         return bucket.size - 1
+    }
+
+    private fun printBucket(bucket: List<Int>, figure: List<Int>, figurePos: Int) {
+        for (i in bucket.size downTo 1) {
+            print("🟦")
+            repeat(7) {
+                if (i >= figurePos && i - figurePos < figure.size && figure[i - figurePos] and (0b1000000 shr it) != 0) {
+                    print("🟥")
+                } else if (i < bucket.size && bucket[i] and (0b1000000 shr it) != 0) {
+                    print("⬜")
+                } else {
+                    print("⬛️")
+                }
+            }
+            println("🟦")
+        }
+        println("🟦🟦🟦🟦🟦🟦🟦🟦🟦\n")
     }
 
 
