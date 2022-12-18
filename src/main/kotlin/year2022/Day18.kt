@@ -22,14 +22,13 @@ class Day18(input: String) {
 
     private val cubes = input.lines().map(Point3D::parse).toSet()
 
-    fun part1(): Int {
-        val nonTouchingFaces = mutableSetOf<Face>()
+    fun part1(): Int = with(mutableSetOf<Face>()) {
         cubes.flatMap { it.faces }.forEach { face ->
-            if (!nonTouchingFaces.remove(face)) {
-                nonTouchingFaces.add(face)
+            if (!remove(face)) {
+                add(face)
             }
         }
-        return nonTouchingFaces.size
+        return size
     }
 
     fun part2(): Int {
