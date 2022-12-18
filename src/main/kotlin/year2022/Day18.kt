@@ -24,16 +24,13 @@ class Day18(input: String) {
     }.map { (x, y, z) -> Cube(x, y, z) }.toSet()
 
     fun part1(): Int {
-        val faces = mutableSetOf<Face>()
-        var faceCount = cubes.count() * 6
-        cubes.forEach { cube ->
-            cube.faces.forEach { face ->
-                if (!faces.add(face)) {
-                    faceCount -= 2
-                }
+        val nonTouchingFaces = mutableSetOf<Face>()
+        cubes.flatMap { it.faces }.forEach { face ->
+            if (!nonTouchingFaces.remove(face)) {
+                nonTouchingFaces.add(face)
             }
         }
-        return faceCount
+        return nonTouchingFaces.size
     }
 
     fun part2(): Int {
