@@ -2,9 +2,9 @@ package utils
 
 import kotlin.math.abs
 
-data class Point(val x: Int, val y: Int) {
+data class Point2D(val x: Int, val y: Int) {
 
-    fun manhattan(other: Point): Int {
+    fun manhattan(other: Point2D): Int {
         return abs(other.x - this.x) + abs(other.y - this.y)
     }
 
@@ -13,10 +13,10 @@ data class Point(val x: Int, val y: Int) {
     fun move(dx: Int = 0, dy: Int = 0) = copy(x = x + dx, y = y + dy)
 
     companion object {
-        val ORIGIN = Point(0, 0)
-        fun parse(string: String): Point {
+        val ORIGIN = Point2D(0, 0)
+        fun parse(string: String): Point2D {
             val (x, y) = string.split(",").map(String::toInt)
-            return Point(x, y)
+            return Point2D(x, y)
         }
     }
 }

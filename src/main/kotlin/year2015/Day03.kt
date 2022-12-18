@@ -1,7 +1,7 @@
 package year2015
 
 import utils.Direction
-import utils.Point
+import utils.Point2D
 import utils.isEven
 
 class Day03 {
@@ -16,13 +16,13 @@ class Day03 {
             .map(Collection<Char>::toCharArray)
             .map(::String)
             .map(::visited)
-            .reduce(Set<Point>::plus)
+            .reduce(Set<Point2D>::plus)
             .size
     }
 
-    private fun visited(input: String): Set<Point> =
+    private fun visited(input: String): Set<Point2D> =
         input.map(Direction.Companion::byArrow)
-            .runningFold(Point.ORIGIN, Point::move)
+            .runningFold(Point2D.ORIGIN, Point2D::move)
             .toSet()
 
 }

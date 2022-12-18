@@ -1,15 +1,15 @@
 package year2022
 
 import utils.Direction
-import utils.Point
+import utils.Point2D
 import kotlin.math.abs
 import kotlin.math.sign
 
 class Day09 {
 
     private fun solution(input: String, len: Int): Int {
-        val positions = mutableSetOf<Point>()
-        val parts = MutableList(len) { Point(0, 0) }
+        val positions = mutableSetOf<Point2D>()
+        val parts = MutableList(len) { Point2D(0, 0) }
         positions.add(parts.last())
         input.lines().forEach { line ->
             val steps = line.substringAfter(" ").toInt()

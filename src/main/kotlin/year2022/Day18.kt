@@ -1,27 +1,26 @@
 package year2022
 
+import utils.Point3D
+
 class Day18(input: String) {
 
     enum class Plane {
         XY, YZ, XZ
     }
 
-    data class Face(val x: Int, val y: Int, val z: Int, val plane: Plane)
+    data class Face(val point: Point3D, val plane: Plane)
 
-    data class Cube(val x: Int, val y: Int, val z: Int) {
-        val faces = setOf(
-            Face(x, y, z, Plane.XY),
-            Face(x, y, z, Plane.XZ),
-            Face(x, y, z, Plane.YZ),
-            Face(x, y, z + 1, Plane.XY),
-            Face(x, y + 1, z, Plane.XZ),
-            Face(x + 1, y, z, Plane.YZ)
+    private val Point3D.faces
+        get() = setOf(
+            Face(this, Plane.XY),
+            Face(this, Plane.XZ),
+            Face(this, Plane.YZ),
+            Face(this.move(dz = 1), Plane.XY),
+            Face(this.move(dy = 1), Plane.XZ),
+            Face(this.move(dx = 1), Plane.YZ)
         )
-    }
 
-    private val cubes = input.lines().map { line ->
-        line.split(",").map { it.toInt() }
-    }.map { (x, y, z) -> Cube(x, y, z) }.toSet()
+    private val cubes = input.lines().map(Point3D::parse).toSet()
 
     fun part1(): Int {
         val nonTouchingFaces = mutableSetOf<Face>()
@@ -43,22 +42,22 @@ class Day18(input: String) {
         val maxZ = cubes.maxOf { it.z } + 1
         val minZ = cubes.minOf { it.z } - 1
 
-        val visitedCubes = mutableSetOf<Cube>()
+        val visitedCubes = mutableSetOf<Point3D>()
         val visitedFaces = mutableSetOf<Face>()
-        with(ArrayDeque<Cube>()) {
-            add(Cube(0, 0, 0))
+        with(ArrayDeque<Point3D>()) {
+            add(Point3D.ORIGIN)
             while (isNotEmpty()) {
                 with(removeFirst()) {
                     if (this !in cubes && this !in visitedCubes) {
                         visitedCubes.add(this)
                         visitedFaces.addAll(faces.intersect(this.faces))
                         addAll(listOf(
-                            copy(x = x + 1),
-                            copy(x = x - 1),
-                            copy(y = y + 1),
-                            copy(y = y - 1),
-                            copy(z = z + 1),
-                            copy(z = z - 1)
+                            move(dx = 1),
+                            move(dx = -1),
+                            move(dy = 1),
+                            move(dy = -1),
+                            move(dz = 1),
+                            move(dz = -1)
                         ).filter {
                             it.x in minX..maxX
                                     && it.y in minY..maxY

@@ -1,17 +1,17 @@
 package year2022
 
 import utils.Direction.*
-import utils.Point
+import utils.Point2D
 
 class Day14 {
 
-    private val origin = Point(500, 0)
+    private val origin = Point2D(500, 0)
 
-    private fun parse(input: String): MutableSet<Point> = buildSet {
+    private fun parse(input: String): MutableSet<Point2D> = buildSet {
         input.lines().forEach { line ->
             line.split(" -> ")
                 .windowed(2)
-                .map { it.map(Point::parse) }
+                .map { it.map(Point2D::parse) }
                 .forEach { (p1, p2) ->
                     add(p1)
                     var p1m = p1
