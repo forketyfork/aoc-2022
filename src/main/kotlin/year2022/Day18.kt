@@ -57,11 +57,7 @@ class Day18(input: String) {
                             move(dy = -1),
                             move(dz = 1),
                             move(dz = -1)
-                        ).filter {
-                            it.x in minX..maxX
-                                    && it.y in minY..maxY
-                                    && it.z in minZ..maxZ
-                        })
+                        ).filter { it.x in minX..maxX && it.y in minY..maxY && it.z in minZ..maxZ })
                     }
                 }
             }
