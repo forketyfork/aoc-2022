@@ -83,11 +83,7 @@ class Day19 {
         .map { blueprint -> solution(null, State(blueprint, steps, 0, 0, 0, 0, 1, 0, 0, 0)) }
 
     private fun solution(prevState: State?, state: State): Int {
-        if (state.stepsLeft == 0
-            || state.stepsLeft == 1 && state.geodeRobots == 0
-            || state.stepsLeft == 2 && state.obsidianRobots == 0
-            || state.stepsLeft == 3 && state.clayRobots == 0
-        ) {
+        if (state.stepsLeft == 0) {
             return state.geode
         }
         return buildList {
