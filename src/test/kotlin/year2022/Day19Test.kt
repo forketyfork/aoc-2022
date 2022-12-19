@@ -15,7 +15,7 @@ class Day19Test {
             arrayOf(
                 Arguments.of("year2022/Day19_sample", 33, 56 * 62),
             ),
-            Arguments.of("year2022/Day19_personal", 1624, 0)
+            Arguments.of("year2022/Day19_personal", 1624, 12628)
         )
     }
 
@@ -24,6 +24,6 @@ class Day19Test {
     fun test(file: String, part1Answer: Int, part2Answer: Int) {
         val contents = readTestFile(file)
         assertThat(Day19().part1(contents)).isEqualTo(part1Answer)
-//        assertThat(Day19().part2(contents)).isEqualTo(part2Answer)
+        assertThat(Day19().part2(contents)).isEqualTo(part2Answer)
     }
 }

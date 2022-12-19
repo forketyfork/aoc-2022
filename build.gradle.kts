@@ -26,8 +26,6 @@ tasks {
             val test = descriptor as org.gradle.api.internal.tasks.testing.TestDescriptorInternal
             println("${test.className} > ${test.name} [${test.displayName}]: ${result.resultType}")
         }))
-
-        maxHeapSize = "16000m"
     }
 }
 

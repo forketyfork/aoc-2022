@@ -10,97 +10,112 @@ class Day19 {
         val obsidianRobotClayCost: Int,
         val geodeRobotOreCost: Int,
         val geodeRobotObsidianCost: Int
-    )
+    ) {
+        val maxOreCost = maxOf(oreRobotOreCost, obsidianRobotOreCost, geodeRobotOreCost, clayRobotOreCost)
+    }
 
     data class State(
-        val stepsLeft: Byte,
+        val blueprint: Blueprint,
+        val stepsLeft: Int,
         val ore: Int,
         val clay: Int,
         val obsidian: Int,
         val geode: Int,
-        val oreRobots: Byte,
-        val clayRobots: Byte,
-        val obsidianRobots: Byte,
-        val geodeRobots: Byte
+        val oreRobots: Int,
+        val clayRobots: Int,
+        val obsidianRobots: Int,
+        val geodeRobots: Int
     ) {
         val isConsistent
             get() = stepsLeft > 0 && ore >= 0 && clay >= 0 && obsidian >= 0
+
+        fun canBuyOreRobot() = ore >= blueprint.oreRobotOreCost
+        fun canBuyClayRobot() = ore >= blueprint.clayRobotOreCost
+        fun canBuyObsidianRobot() =
+            ore >= blueprint.obsidianRobotOreCost && clay >= blueprint.obsidianRobotClayCost
+
+        fun canBuyGeodeRobot() =
+            ore >= blueprint.geodeRobotOreCost && obsidian >= blueprint.geodeRobotObsidianCost
+
+        fun sameNumberOfRobots(other: State) = oreRobots == other.oreRobots
+                && clayRobots == other.clayRobots
+                && obsidianRobots == other.obsidianRobots
+                && geodeRobots == other.geodeRobots
+
+        fun buyGeodeRobot() = copy(
+            ore = ore - blueprint.geodeRobotOreCost,
+            obsidian = obsidian - blueprint.geodeRobotObsidianCost,
+            geodeRobots = geodeRobots + 1
+        )
+
+        fun buyOreRobot() = copy(
+            ore = ore - blueprint.oreRobotOreCost,
+            oreRobots = oreRobots + 1,
+        )
+
+        fun buyClayRobot() = copy(
+            ore = ore - blueprint.clayRobotOreCost,
+            clayRobots = clayRobots + 1,
+        )
+
+        fun buyObsidianRobot() = copy(
+            ore = ore - blueprint.obsidianRobotOreCost,
+            clay = clay - blueprint.obsidianRobotClayCost,
+            obsidianRobots = obsidianRobots + 1,
+        )
+
+        fun increaseStep(prevState: State) = copy(
+            stepsLeft = stepsLeft - 1,
+            ore = ore + prevState.oreRobots,
+            clay = clay + prevState.clayRobots,
+            obsidian = obsidian + prevState.obsidianRobots,
+            geode = geode + prevState.geodeRobots
+        )
     }
 
     private val regex =
         """Blueprint (\d*): Each ore robot costs (\d*) ore. Each clay robot costs (\d*) ore. Each obsidian robot costs (\d*) ore and (\d*) clay. Each geode robot costs (\d*) ore and (\d*) obsidian.""".toRegex()
 
-    private fun solution(input: List<String>, steps: Byte): List<Int> {
-        val blueprints = input.map(regex::find)
-            .map { result -> result!!.groupValues.drop(1).map(String::toInt) }
-            .map { list -> Blueprint(list[0], list[1], list[2], list[3], list[4], list[5], list[6]) }
-            .toList()
 
-        return blueprints.mapIndexed { idx, blueprint ->
+    private fun solution(input: List<String>, steps: Int) = input.map(regex::find)
+        .map { result -> result!!.groupValues.drop(1).map(String::toInt) }
+        .map { list -> Blueprint(list[0], list[1], list[2], list[3], list[4], list[5], list[6]) }
+        .map { blueprint -> solution(null, State(blueprint, steps, 0, 0, 0, 0, 1, 0, 0, 0)) }
 
-            val memo = mutableMapOf<State, Int>()
-
-            fun rec(state: State): Int {
-                if (state.stepsLeft == 0.toByte()
-                    || state.stepsLeft == 1.toByte() && state.geodeRobots == 0.toByte()
-                    || state.stepsLeft == 2.toByte() && state.obsidianRobots == 0.toByte()
-                    || state.stepsLeft == 3.toByte() && state.clayRobots == 0.toByte()
-                ) {
-                    return state.geode
-                }
-                if (memo[state] != null) {
-                    return memo[state]!!
-                }
-                val oreRobots = state.oreRobots
-                val clayRobots = state.clayRobots
-                val obsidianRobots = state.obsidianRobots
-                val geodeRobots = state.geodeRobots
-                val result = listOf(
-                    state,
-                    state.copy(
-                        ore = state.ore - blueprint.oreRobotOreCost,
-                        oreRobots = (state.oreRobots + 1).toByte(),
-                    ),
-                    state.copy(
-                        ore = state.ore - blueprint.clayRobotOreCost,
-                        clayRobots = (state.clayRobots + 1).toByte(),
-                    ),
-                    state.copy(
-                        ore = state.ore - blueprint.obsidianRobotOreCost,
-                        clay = state.clay - blueprint.obsidianRobotClayCost,
-                        obsidianRobots = (state.obsidianRobots + 1).toByte(),
-                    ),
-                    state.copy(
-                        ore = state.ore - blueprint.geodeRobotOreCost,
-                        obsidian = state.obsidian - blueprint.geodeRobotObsidianCost,
-                        geodeRobots = (state.geodeRobots + 1).toByte()
-                    )
-                )
-                    .filter { it.isConsistent }
-                    .map {
-                        it.copy(
-                            stepsLeft = (it.stepsLeft - 1).toByte(),
-                            ore = it.ore + oreRobots,
-                            clay = it.clay + clayRobots,
-                            obsidian = it.obsidian + obsidianRobots,
-                            geode = it.geode + geodeRobots
-                        )
-                    }
-                    .maxOf { rec(it) }
-                memo[state] = result
-                if (memo.size % 10000000 == 0) {
-                    println("State size: ${memo.size}")
-                }
-                return result
-            }
-
-            val best = rec(State(steps, 0, 0, 0, 0, 1, 0, 0, 0))
-            println("Best value for blueprint ${blueprint.id}: $best")
-            best
-
+    private fun solution(prevState: State?, state: State): Int {
+        if (state.stepsLeft == 0
+            || state.stepsLeft == 1 && state.geodeRobots == 0
+            || state.stepsLeft == 2 && state.obsidianRobots == 0
+            || state.stepsLeft == 3 && state.clayRobots == 0
+        ) {
+            return state.geode
         }
+        return buildList {
+            if (state.canBuyGeodeRobot()) {
+                add(state.buyGeodeRobot())
+            } else {
+                add(state)
+                if (!(prevState?.canBuyOreRobot() == true && prevState.sameNumberOfRobots(state))
+                    && state.oreRobots < state.blueprint.maxOreCost
+                ) {
+                    add(state.buyOreRobot())
+                }
+                if (!(prevState?.canBuyClayRobot() == true && prevState.sameNumberOfRobots(state))
+                    && state.clayRobots < state.blueprint.obsidianRobotClayCost
+                ) {
+                    add(state.buyClayRobot())
+                }
+                if (!(prevState?.canBuyObsidianRobot() == true && prevState.sameNumberOfRobots(state))
+                    && state.obsidianRobots < state.blueprint.geodeRobotObsidianCost
+                ) {
+                    add(state.buyObsidianRobot())
+                }
+            }
+        }.filter { it.isConsistent }
+            .map { it.increaseStep(state) }
+            .maxOf { solution(state, it) }
     }
 
     fun part1(input: String) = solution(input.lines(), 24).reduceIndexed { idx, acc, value -> acc + (idx + 1) * value }
-    fun part2(input: String) = solution(input.lines().take(3), 32).reduce { a, b -> a * b }
+    fun part2(input: String) = solution(input.lines().take(3), 32).reduce(Int::times)
 }
