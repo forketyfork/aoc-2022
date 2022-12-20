@@ -43,6 +43,6 @@ class Day20(input: String) {
             node.prev = nodes[idx.prevIndexOf(nodes)]
         }
         nodes.mix(mixes)
-        return generateSequence(nodes.zero()) { it.nextNode(1000) }.drop(1). take(3).map(Node::value).sum()
+        return generateSequence(nodes.zero()) { it.nextNode(1000) }.drop(1).take(3).map(Node::value).sum()
     }
 }
