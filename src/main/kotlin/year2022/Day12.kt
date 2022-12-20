@@ -4,14 +4,14 @@ import utils.Direction.*
 import utils.letterIndex
 import kotlin.math.min
 
-class Node(val elevation: Int) {
-    var distance: Int = Int.MAX_VALUE
-    var visited: Boolean = false
-    var enqueued: Boolean = false
-    var neighbors = mutableListOf<Node>()
-}
-
 class Day12 {
+
+    class Node(val elevation: Int) {
+        var distance: Int = Int.MAX_VALUE
+        var visited: Boolean = false
+        var enqueued: Boolean = false
+        var neighbors = mutableListOf<Node>()
+    }
 
     private fun bfs(
         input: String,
