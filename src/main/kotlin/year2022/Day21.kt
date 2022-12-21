@@ -59,7 +59,7 @@ class Day21 {
 
     }
 
-    private fun buildGraph(input: String) = mutableMapOf<String, Node>().apply {
+    private fun buildGraph(input: String) = buildMap<String, Node> {
         input.lines().forEach { line ->
             val name = line.substringBefore(':')
             val node = computeIfAbsent(name, ::Node)

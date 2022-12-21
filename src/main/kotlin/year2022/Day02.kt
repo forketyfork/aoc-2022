@@ -1,38 +1,40 @@
 package year2022
 
-enum class Move(private val points: Int) {
-
-    ROCK(1), PAPER(2), SCISSORS(3);
-
-    fun score(other: Move): Int = when {
-        this == other -> Outcome.DRAW
-        this.ordinal == (other.ordinal + 1) % Move.values().size -> Outcome.WIN
-        else -> Outcome.LOSE
-    }.points + this.points
-
-    fun loser() = Move.values()[(Move.values().size + this.ordinal - 1) % Move.values().size]
-    fun winner() = Move.values()[(this.ordinal + 1) % Move.values().size]
-
-    companion object {
-        fun ofChar(c: Char): Move = when (c) {
-            'A', 'X' -> ROCK
-            'B', 'Y' -> PAPER
-            'C', 'Z' -> SCISSORS
-            else -> error("Unknown move: $c")
-        }
-    }
-}
-
-enum class Outcome(val code: Char, val points: Int) {
-
-    LOSE('X', 0), DRAW('Y', 3), WIN('Z', 6);
-
-    companion object {
-        fun ofChar(c: Char): Outcome = values().find { it.code == c } ?: error("Unknown outcome: $c")
-    }
-}
 
 class Day02 {
+
+    enum class Move(private val points: Int) {
+
+        ROCK(1), PAPER(2), SCISSORS(3);
+
+        fun score(other: Move): Int = when {
+            this == other -> Outcome.DRAW
+            this.ordinal == (other.ordinal + 1) % Move.values().size -> Outcome.WIN
+            else -> Outcome.LOSE
+        }.points + this.points
+
+        fun loser() = Move.values()[(Move.values().size + this.ordinal - 1) % Move.values().size]
+        fun winner() = Move.values()[(this.ordinal + 1) % Move.values().size]
+
+        companion object {
+            fun ofChar(c: Char): Move = when (c) {
+                'A', 'X' -> ROCK
+                'B', 'Y' -> PAPER
+                'C', 'Z' -> SCISSORS
+                else -> error("Unknown move: $c")
+            }
+        }
+    }
+
+    enum class Outcome(val code: Char, val points: Int) {
+
+        LOSE('X', 0), DRAW('Y', 3), WIN('Z', 6);
+
+        companion object {
+            fun ofChar(c: Char): Outcome = values().find { it.code == c } ?: error("Unknown outcome: $c")
+        }
+    }
+
     private fun calculateScore(input: List<String>, parser: (Pair<Char, Char>) -> Pair<Move, Move>): Int =
         input.map { it.split(" ").map(String::first) }
             .map { (p1, p2) -> Pair(p1, p2) }

@@ -1,23 +1,24 @@
 package year2022
 
-class Directory(val parent: Directory?) {
-    var totalSize: Int = 0
-    val childDirs: MutableMap<String, Directory> = mutableMapOf()
-
-    fun find(predicate: (Directory) -> Boolean): List<Directory> = buildList {
-        if (predicate(this@Directory)) {
-            add(this@Directory)
-        }
-        addAll(childDirs.values.flatMap { dir -> dir.find(predicate) })
-    }
-
-    fun updateTotalSizes(): Int {
-        totalSize += childDirs.values.sumOf { it.updateTotalSizes() }
-        return totalSize
-    }
-}
-
 class Day07 {
+
+    class Directory(val parent: Directory?) {
+        var totalSize: Int = 0
+        val childDirs: MutableMap<String, Directory> = mutableMapOf()
+
+        fun find(predicate: (Directory) -> Boolean): List<Directory> = buildList {
+            if (predicate(this@Directory)) {
+                add(this@Directory)
+            }
+            addAll(childDirs.values.flatMap { dir -> dir.find(predicate) })
+        }
+
+        fun updateTotalSizes(): Int {
+            totalSize += childDirs.values.sumOf { it.updateTotalSizes() }
+            return totalSize
+        }
+    }
+
     private fun buildGraph(input: String) = Directory(null).apply {
         var current: Directory = this
         input.lines().forEach { line ->

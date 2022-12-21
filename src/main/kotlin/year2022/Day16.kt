@@ -1,20 +1,19 @@
 package year2022
 
-import utils.isOdd
 import utils.powerSetSequence
 
-data class ValveNode(val name: String) {
-    var flowRate = 0
-    var neighbors = mutableListOf<ValveNode>()
-    val distanceMap: MutableMap<ValveNode, Int> = mutableMapOf()
-}
 
 class Day16(input: String) {
+    data class ValveNode(val name: String) {
+        var flowRate = 0
+        var neighbors = mutableListOf<ValveNode>()
+        val distanceMap: MutableMap<ValveNode, Int> = mutableMapOf()
+    }
 
     private val regex = """Valve (..) has flow rate=(\d*); tunnels? leads? to valves? (.*)""".toRegex()
 
-    private val nodes = with(mutableMapOf<String, ValveNode>()) {
-        regex.findAll(input).toList().map { match ->
+    private val nodes = buildMap<String, ValveNode> {
+        regex.findAll(input).toList().forEach { match ->
             val valveId = match.groupValues[1]
             getOrPut(valveId) { ValveNode(valveId) }.apply {
                 this.flowRate = match.groupValues[2].toInt()
@@ -23,7 +22,7 @@ class Day16(input: String) {
                 }
             }
         }
-    }
+    }.values
 
     private val valves = nodes.filter { it.flowRate > 0 }.toSet()
 

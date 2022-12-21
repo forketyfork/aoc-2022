@@ -3,11 +3,11 @@ package year2022
 import utils.Direction.*
 import utils.Point2D
 
-data class Sensor(val position: Point2D, val beacon: Point2D) {
-    val coverage = position.manhattan(beacon)
-}
-
 class Day15(input: String) {
+
+    data class Sensor(val position: Point2D, val beacon: Point2D) {
+        val coverage = position.manhattan(beacon)
+    }
 
     private val regex = """Sensor at x=(.*), y=(.*): closest beacon is at x=(.*), y=(.*)""".toRegex()
 

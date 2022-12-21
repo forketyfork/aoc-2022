@@ -1,15 +1,15 @@
 package year2022
 
-data class Monkey(
-    val items: MutableList<Long>,
-    val operation: (Long) -> Long,
-    val divider: Long,
-    val trueThrow: Int,
-    val falseThrow: Int,
-    var inspections: Long = 0
-)
-
 class Day11 {
+
+    data class Monkey(
+        val items: MutableList<Long>,
+        val operation: (Long) -> Long,
+        val divider: Long,
+        val trueThrow: Int,
+        val falseThrow: Int,
+        var inspections: Long = 0
+    )
 
     private fun parseMonkeys(input: String) = input.split("\n\n")
         .map { it.lines() }
