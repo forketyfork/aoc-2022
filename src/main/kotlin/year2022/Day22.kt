@@ -22,28 +22,26 @@ class Day22(contents: String) {
             .plus(" ".repeat(width + 2))
     }
 
-    private val directions = mutableListOf<Any>()
-
-    init {
+    private val directions = buildList {
         var number = 0
         contents.lines().last().forEach { char ->
             number = when (char) {
                 'L' -> {
-                    directions.add(number)
-                    directions.add(LEFT)
+                    add(number)
+                    add(LEFT)
                     0
                 }
 
                 'R' -> {
-                    directions.add(number)
-                    directions.add(RIGHT)
+                    add(number)
+                    add(RIGHT)
                     0
                 }
 
                 else -> number * 10 + (char - '0')
             }
         }
-        directions.add(number)
+        add(number)
     }
 
     private val wraparoundRulesSimple: Map<Direction, Pair<State.() -> Point2D, State.() -> Direction>> = mapOf(
@@ -284,11 +282,11 @@ class Day22(contents: String) {
                 val nextPosition = position.move(state.facing)
                 move(when (maze.at(nextPosition)) {
                     ' ' -> wraparoundRules(state.facing).let { (wraparoundPosition, wraparoundFacing) ->
-                        with(wraparoundPosition.invoke(state)) {
+                        with(wraparoundPosition(state)) {
                             if (maze.at(this) == '#') {
                                 state
                             } else {
-                                state.copy(position = this, facing = wraparoundFacing.invoke(state))
+                                state.copy(position = this, facing = wraparoundFacing(state))
                             }
                         }
                     }
