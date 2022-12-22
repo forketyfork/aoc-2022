@@ -10,12 +10,9 @@ class Day22(contents: String) {
 
     private fun List<String>.at(position: Point2D) = this[position.y][position.x]
 
-    private val height: Int
-
     private val width: Int
 
     private val maze = contents.lines().dropLast(2).also {
-        height = it.size
         width = it.maxOf(String::length)
     }.map {
         " " + it.padEnd(width + 1)
@@ -288,48 +285,16 @@ class Day22(contents: String) {
                 } else {
                     state.copy(position = this, facing = nextDirection)
                 }
-                move(
-                    when (state.facing) {
-                        LEFT -> when (maze.at(position.move(dx = -1))) {
-                            ' ' -> wraparoundRules(LEFT).let { (nextPosition, nextFacing) ->
-                                nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
-                            }
 
-                            '#' -> this
-                            else -> copy(position = position.move(dx = -1))
-                        }
+                val nextPosition = position.move(state.facing)
+                move(when (maze.at(nextPosition)) {
+                    ' ' -> wraparoundRules(state.facing).let { (wraparoundPosition, wraparoundFacing) ->
+                        wraparoundPosition.invoke(state).tryMoveHere(wraparoundFacing.invoke(state))
+                    }
 
-                        RIGHT -> when (maze.at(position.move(dx = 1))) {
-                            ' ' -> wraparoundRules(RIGHT).let { (nextPosition, nextFacing) ->
-                                nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
-                            }
-
-                            '#' -> this
-                            else -> copy(position = position.move(dx = 1))
-                        }
-
-                        UP -> when (maze.at(position.move(dy = -1))) {
-                            ' ' -> wraparoundRules(UP).let { (nextPosition, nextFacing) ->
-                                nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
-                            }
-
-                            '#' -> this
-                            else -> copy(position = position.move(dy = -1))
-                        }
-
-                        DOWN -> when (maze.at(position.move(dy = 1))) {
-                            ' ' -> wraparoundRules(DOWN).let { (nextPosition, nextFacing) ->
-                                nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
-                            }
-
-                            '#' -> this
-                            else -> copy(position = position.move(dy = 1))
-                        }
-
-                        else -> error("")
-                    }, steps - 1, wraparoundRules
-                )
-
+                    '#' -> this
+                    else -> copy(position = nextPosition)
+                }, steps - 1, wraparoundRules)
             }
         }
 
@@ -350,11 +315,12 @@ class Day22(contents: String) {
             }
         }
 
-        return 1000L * state.position.y + 4 * state.position.x + mapOf(
-            RIGHT to 0,
-            DOWN to 1,
-            LEFT to 2,
-            UP to 3
-        )[state.facing]!!
+        return 1000L * state.position.y + 4 * state.position.x + when (state.facing) {
+            RIGHT -> 0
+            DOWN -> 1
+            LEFT -> 2
+            UP -> 3
+            else -> error(state.facing)
+        }
     }
 }
