@@ -6,21 +6,26 @@ import utils.Point2D
 
 class Day22(contents: String) {
 
+    data class State(val position: Point2D, val facing: Direction)
+
+    private fun List<String>.at(position: Point2D) = this[position.y][position.x]
 
     private val height: Int
+
     private val width: Int
+
     private val maze = contents.lines().dropLast(2).also {
         height = it.size
         width = it.maxOf(String::length)
     }.map {
         " " + it.padEnd(width + 1)
-    }.plus(" ".repeat(width + 2)).reversed().plus(" ".repeat(width + 2)).reversed()
+    }.let {
+        listOf(" ".repeat(width + 2))
+            .plus(it)
+            .plus(" ".repeat(width + 2))
+    }
 
     private val directions = mutableListOf<Any>()
-
-    data class State(val position: Point2D, val facing: Direction)
-
-    private fun List<String>.at(position: Point2D) = this[position.y][position.x]
 
     init {
         var number = 0
