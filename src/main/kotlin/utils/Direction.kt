@@ -11,6 +11,26 @@ enum class Direction(private val dx: Int, private val dy: Int) {
     RIGHT_DOWN(1, 1),
     LEFT_DOWN(-1, 1);
 
+    fun rotate(direction: Direction): Direction = when (direction) {
+        RIGHT -> when (this) {
+            RIGHT -> DOWN
+            DOWN -> LEFT
+            LEFT -> UP
+            UP -> RIGHT
+            else -> error("Can't rotate $this to $direction")
+        }
+
+        LEFT -> when (this) {
+            RIGHT -> UP
+            UP -> LEFT
+            LEFT -> DOWN
+            DOWN -> RIGHT
+            else -> error("Can't rotate $this to $direction")
+        }
+
+        else -> error("Can't rotate $this to $direction")
+    }
+
     operator fun component1() = dx
 
     operator fun component2() = dy
