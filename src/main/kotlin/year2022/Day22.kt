@@ -279,10 +279,10 @@ class Day22(contents: String) {
                 this
             } else {
 
-                val nextPosition = position.move(state.facing)
+                val nextPosition = position.move(facing)
                 move(when (maze.at(nextPosition)) {
-                    ' ' -> wraparoundRules(state.facing).let { (wraparoundPosition, wraparoundFacing) ->
-                        with(wraparoundPosition(state)) {
+                    ' ' -> wraparoundRules(facing).let { (wraparoundPosition, wraparoundFacing) ->
+                        with(wraparoundPosition(this)) {
                             if (maze.at(this) == '#') {
                                 state
                             } else {
