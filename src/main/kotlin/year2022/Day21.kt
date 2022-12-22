@@ -1,5 +1,8 @@
 package year2022
 
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import utils.Direction
 import utils.Direction.LEFT
 import utils.Direction.RIGHT
@@ -73,6 +76,33 @@ class Day21 {
     }["root"]!!.also { it.calculateHumnPosition() }
 
     fun part1(input: String) = buildGraph(input).value()
+
+    fun part1Coroutines(input: String) = runBlocking {
+        buildMap<String, Channel<Long>> {
+            input.lines().forEach { line ->
+                val channel = computeIfAbsent(line.substringBefore(':')) { _ -> Channel() }
+                launch {
+                    val source = line.substringAfter(": ")
+                    channel.send(
+                        if (source[0].isDigit()) {
+                            source.toLong()
+                        } else {
+                            mapOf<Char, (Long, Long) -> Long>(
+                                '+' to Long::plus,
+                                '-' to Long::minus,
+                                '/' to Long::div,
+                                '*' to Long::times
+                            )[source[5]]!!.invoke(
+                                computeIfAbsent(source.substring(0..3)) { _ -> Channel() }.receive(),
+                                computeIfAbsent(source.substring(7)) { _ -> Channel() }.receive()
+                            )
+                        }
+                    )
+                }
+            }
+        }["root"]!!.receive()
+    }
+
 
     fun part2(input: String) = buildGraph(input).also { it.op = Op.SUB }.calculateHumnValue(0L)
 

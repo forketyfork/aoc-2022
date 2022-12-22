@@ -24,6 +24,7 @@ class Day21Test {
     fun test(file: String, part1Answer: Long, part2Answer: Long) {
         val contents = readTestFile(file)
         assertThat(Day21().part1(contents)).isEqualTo(part1Answer)
+        assertThat(Day21().part1Coroutines(contents)).isEqualTo(part1Answer)
         assertThat(Day21().part2(contents)).isEqualTo(part2Answer)
     }
 }
