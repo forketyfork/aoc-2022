@@ -280,16 +280,17 @@ class Day22(contents: String) {
             if (steps == 0) {
                 this
             } else {
-                fun Point2D.tryMoveHere(nextDirection: Direction) = if (maze.at(this) == '#') {
-                    state
-                } else {
-                    state.copy(position = this, facing = nextDirection)
-                }
 
                 val nextPosition = position.move(state.facing)
                 move(when (maze.at(nextPosition)) {
                     ' ' -> wraparoundRules(state.facing).let { (wraparoundPosition, wraparoundFacing) ->
-                        wraparoundPosition.invoke(state).tryMoveHere(wraparoundFacing.invoke(state))
+                        with(wraparoundPosition.invoke(state)) {
+                            if (maze.at(this) == '#') {
+                                state
+                            } else {
+                                state.copy(position = this, facing = wraparoundFacing.invoke(state))
+                            }
+                        }
                     }
 
                     '#' -> this
