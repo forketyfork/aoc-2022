@@ -277,7 +277,7 @@ class Day22(contents: String) {
     private fun move(
         state: State,
         steps: Int,
-        wraparoundRules: Map<Direction, Pair<State.() -> Point2D, State.() -> Direction>>
+        wraparoundRules: (Direction) -> Pair<State.() -> Point2D, State.() -> Direction>
     ): State =
         with(state) {
             if (steps == 0) {
@@ -291,7 +291,7 @@ class Day22(contents: String) {
                 move(
                     when (state.facing) {
                         LEFT -> when (maze.at(position.move(dx = -1))) {
-                            ' ' -> wraparoundRules[LEFT]!!.let { (nextPosition, nextFacing) ->
+                            ' ' -> wraparoundRules(LEFT).let { (nextPosition, nextFacing) ->
                                 nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
                             }
 
@@ -300,7 +300,7 @@ class Day22(contents: String) {
                         }
 
                         RIGHT -> when (maze.at(position.move(dx = 1))) {
-                            ' ' -> wraparoundRules[RIGHT]!!.let { (nextPosition, nextFacing) ->
+                            ' ' -> wraparoundRules(RIGHT).let { (nextPosition, nextFacing) ->
                                 nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
                             }
 
@@ -309,7 +309,7 @@ class Day22(contents: String) {
                         }
 
                         UP -> when (maze.at(position.move(dy = -1))) {
-                            ' ' -> wraparoundRules[UP]!!.let { (nextPosition, nextFacing) ->
+                            ' ' -> wraparoundRules(UP).let { (nextPosition, nextFacing) ->
                                 nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
                             }
 
@@ -318,7 +318,7 @@ class Day22(contents: String) {
                         }
 
                         DOWN -> when (maze.at(position.move(dy = 1))) {
-                            ' ' -> wraparoundRules[DOWN]!!.let { (nextPosition, nextFacing) ->
+                            ' ' -> wraparoundRules(DOWN).let { (nextPosition, nextFacing) ->
                                 nextPosition.invoke(state).tryMoveHere(nextFacing.invoke(state))
                             }
 
@@ -345,7 +345,7 @@ class Day22(contents: String) {
         var state = State(Point2D(maze[1].indexOf('.'), 1), RIGHT)
         directions.forEach { direction ->
             when (direction) {
-                is Int -> state = move(state, direction, wraparoundRules)
+                is Int -> state = move(state, direction, wraparoundRules::getValue)
                 is Direction -> state = state.copy(facing = state.facing.rotate(direction))
             }
         }
