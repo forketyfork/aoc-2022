@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.0-RC"
+    kotlin("jvm") version "1.8.0-RC2"
 }
 
 repositories {
@@ -28,12 +28,16 @@ tasks {
             println("${test.className} > ${test.name} [${test.displayName}]: ${result.resultType}")
         }))
     }
+
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.languageVersion = "1.8"
     kotlinOptions.jvmTarget = "19"
     kotlinOptions.freeCompilerArgs = listOf("-Xuse-k2", "-opt-in=kotlin.ExperimentalStdlibApi")
-    kotlinOptions.freeCompilerArgs += "-opt-in=org.mylibrary.OptInAnnotation"
+}
 
+tasks.withType<JavaCompile> {
+    targetCompatibility = "19"
+    sourceCompatibility = "19"
 }
