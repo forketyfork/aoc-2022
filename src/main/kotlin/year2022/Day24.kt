@@ -16,15 +16,20 @@ class Day24(contents: String) {
     private val source = Point2D(1, 0)
     private val destination = Point2D(width - 2, height - 1)
     private val blizzardPeriod = (width - 2).lcm(height - 2)
-
-    private val blizzardsMap = mapOf(
+    private val blizzardsByStep = mapOf(
         0 to lines.flatMapIndexed { row, line ->
             line.withIndex().filter { it.value in Direction.ARROWS }.map { (col, char) ->
                 Point2D(col, row) to setOf(Blizzard(Point2D(col, row), Direction.byArrow(char)))
             }
-
         }.toMap()
     ).toMutableMap()
+
+    fun part1() = solve(State(0, source), destination)
+
+    fun part2() = listOf(source, destination, source, destination)
+        .windowed(2)
+        .fold(0) { step, (from, to) -> solve(State(step, from), to) }
+
 
     private fun solve(initialState: State, dest: Point2D): Int = with(ArrayDeque<State>()) {
         val seenStates = mutableMapOf<Point2D, MutableSet<Int>>()
@@ -38,8 +43,8 @@ class Day24(contents: String) {
                 continue
             }
 
-            val nextBlizzards = blizzardsMap.computeIfAbsent(state.step % blizzardPeriod) {
-                blizzardsMap[state.step - 1]!!.values.flatMap { blizzards ->
+            val nextBlizzards = blizzardsByStep.computeIfAbsent(state.step % blizzardPeriod) {
+                blizzardsByStep[state.step - 1]!!.values.flatMap { blizzards ->
                     blizzards.map { blizzard ->
                         val nextPosition = blizzard.position.move(blizzard.direction).let {
                             if (it.x == width - 1) {
@@ -71,25 +76,5 @@ class Day24(contents: String) {
         }
         error("Solution not found")
     }
-
-    fun part1() = solve(State(0, source), destination)
-
-    fun part2() = solve(
-        State(
-            solve(
-                State(
-                    solve(
-                        State(
-                            0,
-                            source
-                        ),
-                        destination
-                    ),
-                    destination
-                ), source
-            ), source
-        ),
-        destination
-    )
 
 }
