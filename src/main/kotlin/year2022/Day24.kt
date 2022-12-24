@@ -39,7 +39,7 @@ class Day24(contents: String) {
             }
             if (seenStates.getOrPut(state.position) { mutableSetOf() }.add(state.step % blizzardPeriod)) {
                 val nextBlizzards = blizzardsByStep.computeIfAbsent(state.step % blizzardPeriod) {
-                    blizzardsByStep[state.step - 1]!!.values.flatMap { blizzards ->
+                    blizzardsByStep[state.step % blizzardPeriod - 1]!!.values.flatMap { blizzards ->
                         blizzards.map { blizzard ->
                             val nextPosition = blizzard.position.move(blizzard.direction).let {
                                 if (it.x == width - 1) {
