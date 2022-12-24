@@ -11,6 +11,14 @@ enum class Direction(private val dx: Int, private val dy: Int) {
     RIGHT_DOWN(1, 1),
     LEFT_DOWN(-1, 1);
 
+    override fun toString() = when (this) {
+        LEFT -> "<"
+        RIGHT -> ">"
+        UP -> "^"
+        DOWN -> "v"
+        else -> "*" // TODO
+    }
+
     fun rotate(direction: Direction): Direction = when (direction) {
         RIGHT -> when (this) {
             RIGHT -> DOWN
@@ -38,6 +46,8 @@ enum class Direction(private val dx: Int, private val dy: Int) {
     companion object {
         fun byFirstLetter(letter: Char): Direction =
             Direction.values().find { it.name.startsWith(letter.uppercaseChar()) }!!
+
+        val ARROWS = setOf('>', '<', '^', 'v')
 
         fun byArrow(arrow: Char): Direction = when (arrow) {
             '>' -> RIGHT
