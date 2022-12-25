@@ -1,14 +1,18 @@
 package year2022
 
-fun String.fromSnafu() = fold(0L) { acc, char -> acc * 5 + "=-012".indexOf(char) - 2 }
-
-fun Long.toSnafu() = generateSequence(this to "") { (number, acc) ->
-    val remainder = number.mod(5)
-    (number + 5 * (remainder / 3)) / 5 to "012=-"[remainder] + acc
-}.first { it.first == 0L }.second
+import kotlin.math.max
 
 class Day25(val contents: String) {
 
-    fun part1() = contents.lines().map(String::fromSnafu).sum().toSnafu()
+    private val digits = "=-012"
+
+    fun part1() = contents.lines().fold("0") { acc, line ->
+        val maxLen = max(line.length, acc.length) + 1
+        acc.padStart(maxLen, '0').zip(line.padStart(maxLen, '0'))
+            .foldRight("" to 0) { (a, b), (result, carry) ->
+                val sum = digits.indexOf(a) + digits.indexOf(b) - 4 + carry
+                (digits[(sum + 7) % 5] + result) to sum / 3
+            }.first.trimStart('0')
+    }
 
 }
