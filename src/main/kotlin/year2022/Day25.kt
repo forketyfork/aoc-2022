@@ -1,22 +1,6 @@
 package year2022
 
-fun String.fromSnafu(): Long {
-    var number = 0L
-    var power = 1L
-    for (i in (length - 1 downTo 0)) {
-        val digit = when (this[i]) {
-            '0' -> 0
-            '1' -> 1
-            '2' -> 2
-            '-' -> -1
-            '=' -> -2
-            else -> error(this)
-        }
-        number += (power * digit)
-        power *= 5
-    }
-    return number
-}
+fun String.fromSnafu() = fold(0L) { acc, char -> acc * 5 + "=-012".indexOf(char) - 2 }
 
 fun Long.toSnafu(): String {
     var number = this
@@ -41,8 +25,6 @@ fun Long.toSnafu(): String {
 
 class Day25(val contents: String) {
 
-
-    fun part1() = contents.lines().map(String::fromSnafu).sum().also { println(it) }.toSnafu()
-
+    fun part1() = contents.lines().map(String::fromSnafu).sum().toSnafu()
 
 }
