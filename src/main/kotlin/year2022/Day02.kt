@@ -37,12 +37,12 @@ class Day02 {
 
     private fun calculateScore(input: List<String>, parser: (Pair<Char, Char>) -> Pair<Move, Move>): Int =
         input.map { it.split(" ").map(String::first) }
-            .map { (p1, p2) -> Pair(p1, p2) }
+            .map { (p1, p2) -> p1 to p2 }
             .map(parser)
             .sumOf { (move1, move2) -> move2.score(move1) }
 
     fun part1(input: String) = calculateScore(input.lines()) {
-        Pair(Move.ofChar(it.first), Move.ofChar(it.second))
+        Move.ofChar(it.first) to Move.ofChar(it.second)
     }
 
     fun part2(input: String) = calculateScore(input.lines()) {
@@ -50,7 +50,7 @@ class Day02 {
         val outcome = Outcome.ofChar(it.second)
         val move2 =
             if (outcome == Outcome.LOSE) move1.loser() else if (outcome == Outcome.DRAW) move1 else move1.winner()
-        Pair(move1, move2)
+        move1 to move2
     }
 
 }
