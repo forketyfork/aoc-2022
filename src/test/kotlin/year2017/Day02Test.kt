@@ -25,9 +25,9 @@ class Day02Test {
     @MethodSource("data")
     fun test(file: String, part1Answer: Int, part2Answer: Int?) {
         val contents = readTestFile(file)
-        assertThat(Day02().part1(contents)).isEqualTo(part1Answer)
+        assertThat(Day02(contents).part1()).isEqualTo(part1Answer)
         if (part2Answer != null) {
-            assertThat(Day02().part2(contents)).isEqualTo(part2Answer)
+            assertThat(Day02(contents).part2()).isEqualTo(part2Answer)
         }
     }
 }

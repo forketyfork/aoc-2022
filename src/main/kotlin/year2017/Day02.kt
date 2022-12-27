@@ -1,18 +1,20 @@
 package year2017
 
-class Day02 {
+class Day02(contents: String) {
 
-    fun part1(input: String) = parse(input).sumOf { it.max() - it.min() }
+    val input = contents.lines()
+        .map {
+            it.split(" ", "\t")
+                .map(kotlin.String::toInt)
+        }
 
-    fun part2(input: String) = parse(input).map { it.sorted() }.sumOf {
-        (0..<it.lastIndex).flatMap { i1 ->
-            (i1 + 1..it.lastIndex).map { i2 -> it[i1] to it[i2] }
-        }.first { (num1, num2) -> num2 % num1 == 0 }
-            .let { (num1, num2) -> num2 / num1 }
+    fun part1() = input.sumOf { it.max() - it.min() }
 
+    fun part2() = input.map { it.sorted() }.sumOf { row ->
+        (0..<row.lastIndex).flatMap { i1 ->
+            (i1 + 1..row.lastIndex).map { i2 -> row[i1] to row[i2] }
+        }.first { it.second % it.first == 0 }
+            .run { second / first }
     }
-
-    private fun parse(input: String) = input.lines()
-        .map { it.split(" ", "\t").map(String::toInt) }
 
 }
