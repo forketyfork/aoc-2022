@@ -3,10 +3,7 @@ package year2017
 class Day02(contents: String) {
 
     val input = contents.lines()
-        .map {
-            it.split(" ", "\t")
-                .map(kotlin.String::toInt)
-        }
+        .map { it.split(" ", "\t").map(String::toInt) }
 
     fun part1() = input.sumOf { it.max() - it.min() }
 
