@@ -21,7 +21,7 @@ class Day21 {
         MUL('*', { a, b -> a * b }, { a, b -> a / b }, { a, b -> a / b });
 
         companion object {
-            fun fromChar(char: Char): Op = values().find { it.char == char }!!
+            fun fromChar(char: Char): Op = entries.find { it.char == char }!!
         }
     }
 

@@ -116,7 +116,7 @@ class Day17 {
                     val currentTowerHeight = skippedHeight + bucket.size - 1
                     skippedHeight += (currentTowerHeight - loopStartingHeight) * loopCount
                     step += loopCount * loopSize // skip all loops
-                    lookingForLoop = false // just let the regular algorithm finish the job for the rest of the steps
+                    lookingForLoop = false // let the regular algorithm finish the job for the rest of the steps
                 }
                 observedSnapshots[snapshot] = step to skippedHeight + bucket.size - 1L
             }

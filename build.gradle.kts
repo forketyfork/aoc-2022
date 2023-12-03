@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.0-RC2"
+    kotlin("jvm") version "1.9.21"
 }
 
 repositories {
@@ -9,16 +9,17 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
-    testImplementation("org.assertj:assertj-core:3.23.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
 
     wrapper {
-        gradleVersion = "7.6"
+        gradleVersion = "8.5"
     }
 
     test {
@@ -32,12 +33,11 @@ tasks {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.languageVersion = "1.8"
-    kotlinOptions.jvmTarget = "19"
-    kotlinOptions.freeCompilerArgs = listOf("-Xuse-k2", "-opt-in=kotlin.ExperimentalStdlibApi")
+    kotlinOptions.languageVersion = "1.9"
 }
 
-tasks.withType<JavaCompile> {
-    targetCompatibility = "19"
-    sourceCompatibility = "19"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

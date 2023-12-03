@@ -9,12 +9,12 @@ class Day02 {
 
         fun score(other: Move): Int = when {
             this == other -> Outcome.DRAW
-            this.ordinal == (other.ordinal + 1) % Move.values().size -> Outcome.WIN
+            this.ordinal == (other.ordinal + 1) % Move.entries.size -> Outcome.WIN
             else -> Outcome.LOSE
         }.points + this.points
 
-        fun loser() = Move.values()[(Move.values().size + this.ordinal - 1) % Move.values().size]
-        fun winner() = Move.values()[(this.ordinal + 1) % Move.values().size]
+        fun loser() = Move.entries[(Move.entries.size + this.ordinal - 1) % Move.entries.size]
+        fun winner() = Move.entries[(this.ordinal + 1) % Move.entries.size]
 
         companion object {
             fun ofChar(c: Char): Move = when (c) {
@@ -31,7 +31,7 @@ class Day02 {
         LOSE('X', 0), DRAW('Y', 3), WIN('Z', 6);
 
         companion object {
-            fun ofChar(c: Char): Outcome = values().find { it.code == c } ?: error("Unknown outcome: $c")
+            fun ofChar(c: Char): Outcome = entries.find { it.code == c } ?: error("Unknown outcome: $c")
         }
     }
 

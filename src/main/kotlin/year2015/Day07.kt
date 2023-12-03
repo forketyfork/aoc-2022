@@ -1,6 +1,7 @@
 package year2015
 
 // TODO WIP
+@Suppress("unused")
 class Day07 {
 
 
@@ -47,6 +48,6 @@ class Day07 {
 
     fun part1(input: String, nodeName: String) = buildGraph(input)[nodeName]!!.value()
 
-    fun part2(input: String) = 0
+    fun part2(input: String): Int = TODO()
 
 }
