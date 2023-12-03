@@ -2,6 +2,20 @@ package year2023
 
 class Day01 {
 
+    companion object {
+        @JvmStatic
+        val digitsAsStrings = mapOf(
+            "one" to 1,
+            "two" to 2,
+            "three" to 3,
+            "four" to 4,
+            "five" to 5,
+            "six" to 6,
+            "seven" to 7,
+            "eight" to 8,
+            "nine" to 9
+        )
+    }
 
     fun part1(input: String): Int = input.lines()
         .filter { it.isNotBlank() }
@@ -15,19 +29,6 @@ class Day01 {
         .map { line ->
             findFirst(line) * 10 + findLast(line)
         }.sum()
-
-
-    val digitsAsStrings = mapOf(
-        "one" to 1,
-        "two" to 2,
-        "three" to 3,
-        "four" to 4,
-        "five" to 5,
-        "six" to 6,
-        "seven" to 7,
-        "eight" to 8,
-        "nine" to 9
-    )
 
     fun findFirst(line: String): Int {
         return if (line.first().isDigit()) {
