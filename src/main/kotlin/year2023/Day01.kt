@@ -15,10 +15,10 @@ class Day01 {
 
     private fun solveForDigitMap(input: String, digitMap: Map<String, Int>): Int = input.lines()
         .filter { it.isNotBlank() }
-        .map { line ->
+        .sumOf { line ->
             val (_, firstDigit) = line.findAnyOf(digitMap.keys)!!
             val (_, lastDigit) = line.findLastAnyOf(digitMap.keys)!!
-            digitMap[firstDigit]!! * 10 + digitMap[lastDigit]!!
-        }.sum()
+            "${digitMap[firstDigit]}${digitMap[lastDigit]}".toInt()
+        }
 
 }
