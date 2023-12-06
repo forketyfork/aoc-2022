@@ -3,51 +3,22 @@ package year2023
 class Day01 {
 
     companion object {
-        @JvmStatic
-        val digitsAsStrings = mapOf(
-            "one" to 1,
-            "two" to 2,
-            "three" to 3,
-            "four" to 4,
-            "five" to 5,
-            "six" to 6,
-            "seven" to 7,
-            "eight" to 8,
-            "nine" to 9
-        )
+        val digits = (0..9).associateBy { it.toString() }
+        val words = listOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+            .withIndex().associate { (idx, word) -> word to idx + 1 }
+        val digitsAndWords = digits + words
     }
 
-    fun part1(input: String): Int = input.lines()
+    fun part1(input: String): Int = solveForDigitMap(input, digits)
+
+    fun part2(input: String): Int = solveForDigitMap(input, digitsAndWords)
+
+    private fun solveForDigitMap(input: String, digitMap: Map<String, Int>): Int = input.lines()
         .filter { it.isNotBlank() }
         .map { line ->
-            ((line.firstOrNull { it.isDigit() } ?: '0') - '0') * 10 +
-                    ((line.lastOrNull { it.isDigit() } ?: '0') - '0')
+            val (_, firstDigit) = line.findAnyOf(digitMap.keys)!!
+            val (_, lastDigit) = line.findLastAnyOf(digitMap.keys)!!
+            digitMap[firstDigit]!! * 10 + digitMap[lastDigit]!!
         }.sum()
-
-    fun part2(input: String): Int = input.lines()
-        .filter { it.isNotBlank() }
-        .map { line ->
-            findFirst(line) * 10 + findLast(line)
-        }.sum()
-
-    fun findFirst(line: String): Int {
-        return if (line.first().isDigit()) {
-            line.first() - '0'
-        } else {
-            digitsAsStrings.firstNotNullOfOrNull {
-                if (line.startsWith(it.key)) it.value else null
-            } ?: findFirst(line.substring(1))
-        }
-    }
-
-    fun findLast(line: String): Int {
-        return if (line.last().isDigit()) {
-            line.last() - '0'
-        } else {
-            digitsAsStrings.firstNotNullOfOrNull {
-                if (line.endsWith(it.key)) it.value else null
-            } ?: findLast(line.substring(0, line.length - 1))
-        }
-    }
 
 }
