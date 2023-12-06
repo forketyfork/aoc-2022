@@ -13,11 +13,11 @@ class Day06 {
     }
 
     fun solve(raceResults: List<RaceResults>): Long {
-        return raceResults.map { result ->
-            (0..result.time).count { timeToHold ->
+        return raceResults.fold(1) { acc, result ->
+            acc * (0..result.time).count { timeToHold ->
                 timeToHold * (result.time - timeToHold) > result.distance
-            }.toLong()
-        }.reduce(Long::times)
+            }
+        }
     }
 
     fun parseInput1(input: String): List<RaceResults> {
@@ -25,8 +25,7 @@ class Day06 {
             .map {
                 it.substringAfter(':')
                     .split(' ')
-                    .filter { it.isNotBlank() }
-                    .map { it.toLong() }
+                    .mapNotNull { it.toLongOrNull() }
             }
         return times.zip(distances) { time, distance -> RaceResults(time, distance) }
     }
@@ -35,8 +34,7 @@ class Day06 {
         val (time, distance) = input.lines()
             .map {
                 it.substringAfter(':')
-                    .split(' ')
-                    .joinToString("")
+                    .replace(" ", "")
                     .toLong()
             }
         return listOf(RaceResults(time, distance))
