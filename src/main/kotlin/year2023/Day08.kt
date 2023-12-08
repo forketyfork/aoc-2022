@@ -4,46 +4,29 @@ import utils.lcm
 
 class Day08 {
 
-    class Node(val name: String, val leftString: String, val rightString: String, val terminal: Boolean) {
-        var left: Node? = null
-        var right: Node? = null
-    }
-
     fun part1(input: String) = solve(input, { it == "AAA" }, { it == "ZZZ" })
     fun part2(input: String) = solve(input, { it.endsWith('A') }, { it.endsWith('Z') })
 
-    fun solve(input: String, startingCondition: (String) -> Boolean, terminalCondition: (String) -> Boolean): Long {
+    data class Node(val left: String, val right: String, val terminal: Boolean)
+
+    fun solve(input: String, isSource: (String) -> Boolean, isDestination: (String) -> Boolean): Long {
         val lines = input.lines()
         val path = lines.first()
-        val nodeMap = mutableMapOf<String, Node>()
-        val startNodes = mutableListOf<Node>()
-        lines.drop(2).map { line ->
-            val name = line.substring(0, 3)
-            val node = Node(name, line.substring(7, 10), line.substring(12, 15), terminalCondition(name))
-            nodeMap[name] = node
-            if (startingCondition(name)) {
-                startNodes += node
-            }
+        val nodes = lines.drop(2).associate { line ->
+            val (name, left, right) = line.split(*" =,()".toCharArray()).filter(String::isNotBlank)
+            name to Node(left, right, isDestination(name))
         }
-        nodeMap.values.forEach { value ->
-            value.left = nodeMap[value.leftString]
-            value.right = nodeMap[value.rightString]
-        }
-        return startNodes.map { node ->
-            var currentNode = node
-            for (idx in 0..Long.MAX_VALUE) {
-                val dir = path[(idx % path.length).toInt()]
-                currentNode = if (dir == 'R') {
-                    currentNode.right!!
-                } else {
-                    currentNode.left!!
-                }
-                if (currentNode.terminal) {
-                    return@map idx + 1
-                }
+        return nodes.filter { isSource(it.key) }.map { node ->
+            (1..Long.MAX_VALUE).fold(node.value) { node, iteration ->
+                path.fold(node) { node, dir -> nodes[(if (dir == 'L') node.left else node.right)]!! }
+                    .apply {
+                        if (terminal) {
+                            return@map iteration
+                        }
+                    }
             }
             0
-        }.reduce(Long::lcm)
+        }.reduce(Long::lcm) * path.length
     }
 
 }
