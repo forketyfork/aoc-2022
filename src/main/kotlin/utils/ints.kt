@@ -1,8 +1,6 @@
 package utils
 
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.*
 
 fun Int.isEven() = this and 1 == 0
 
