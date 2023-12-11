@@ -1,6 +1,6 @@
 package utils
 
-enum class Direction(private val dx: Int, private val dy: Int) {
+enum class Direction(val dx: Int, val dy: Int) {
 
     LEFT(-1, 0),
     RIGHT(1, 0),
