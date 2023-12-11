@@ -13,8 +13,12 @@ class Day10Test {
         @JvmStatic
         fun data() = cases(
             arrayOf(
-                Arguments.of("year2023/Day10_sample1", 4, 0),
-                Arguments.of("year2023/Day10_sample2", 8, 0),
+                Arguments.of("year2023/Day10_sample1", 4, 1),
+                Arguments.of("year2023/Day10_sample2", 8, 1),
+                Arguments.of("year2023/Day10_sample3", 23, 4),
+                Arguments.of("year2023/Day10_sample4", 22, 4),
+                Arguments.of("year2023/Day10_sample5", 70, 8),
+                Arguments.of("year2023/Day10_sample6", 80, 10),
             ),
             Arguments.of("year2023/Day10_personal", 7097, 0)
         )
