@@ -45,7 +45,7 @@ enum class Direction(val dx: Int, val dy: Int) {
 
     companion object {
         fun byFirstLetter(letter: Char): Direction =
-            Direction.entries.find { it.name.startsWith(letter.uppercaseChar()) }!!
+            Direction.entries.take(4).find { it.name.startsWith(letter.uppercaseChar()) }!!
 
         val ARROWS = setOf('>', '<', '^', 'v')
 
