@@ -4,7 +4,7 @@ import utils.Direction
 
 class Day10 {
 
-    val stepMap = buildMap {
+    private val stepMap = buildMap {
         put(Direction.DOWN to '|', Direction.DOWN)
         put(Direction.UP to '|', Direction.UP)
         put(Direction.LEFT to '-', Direction.LEFT)
@@ -25,7 +25,7 @@ class Day10 {
         val sRow = cells.indexOfFirst { it.contains('S') }
         val sCol = cells[sRow].indexOf('S')
 
-        var sDirection = if (sRow > 0 && cells[sRow - 1][sCol] in setOf('|', '7', 'F')) {
+        val sDirection = if (sRow > 0 && cells[sRow - 1][sCol] in setOf('|', '7', 'F')) {
             Direction.UP
         } else if (sCol > 0 && cells[sRow][sCol - 1] in setOf('-', 'F', 'L')) {
             Direction.LEFT

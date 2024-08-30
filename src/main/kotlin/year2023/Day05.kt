@@ -46,12 +46,12 @@ class Day05 {
         return findMinLocation(lines, seeds)
     }
 
-    fun findMinLocation(lines: List<String>, seedRanges: List<LongRange>): Long {
+    private fun findMinLocation(lines: List<String>, seedRanges: List<LongRange>): Long {
         val mappings = buildList {
             var currentList: MutableList<RangeMap>? = null
             for (line in lines.drop(1)) {
                 if (line.isBlank()) {
-                    currentList = mutableListOf<RangeMap>()
+                    currentList = mutableListOf()
                     add(currentList as List<RangeMap>)
                 } else if (line[0].isDigit()) {
                     currentList!!.add(RangeMap.parse(line))

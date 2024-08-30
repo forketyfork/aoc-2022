@@ -11,7 +11,7 @@ class Day02 {
         )
     }
 
-    fun parseLine(line: String): Pair<Int, List<Pair<String, Int>>> {
+    private fun parseLine(line: String): Pair<Int, List<Pair<String, Int>>> {
         val (lineStart, lineEnd) = line.split(':')
 
         val gameNumber = lineStart.removePrefix("Game ").toInt()
@@ -26,27 +26,25 @@ class Day02 {
 
     fun part1(input: String): Int {
         return input.lines()
-            .filter { it.isNotBlank() }
-            .map { line ->
+            .filter { it.isNotBlank() }.sumOf { line ->
                 val (gameNumber, colorList) = parseLine(line)
                 if (colorList.all { pair -> maxColorNumbers[pair.first]!! >= pair.second }) {
                     gameNumber
                 } else {
                     0
                 }
-            }.sum()
+            }
     }
 
     fun part2(input: String): Int {
         return input.lines()
-            .filter { it.isNotBlank() }
-            .map { line ->
+            .filter { it.isNotBlank() }.sumOf { line ->
                 buildMap<String, Int> {
                     parseLine(line).second.forEach { pair ->
                         put(pair.first, maxOf(getOrDefault(pair.first, 0), pair.second))
                     }
                 }.values.reduce(Int::times)
-            }.sum()
+            }
     }
 
 }

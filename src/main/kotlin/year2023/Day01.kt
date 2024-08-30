@@ -4,7 +4,7 @@ class Day01 {
 
     companion object {
         val digits = (0..9).associateBy { it.toString() }
-        val words = listOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+        private val words = listOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
             .withIndex().associate { (idx, word) -> word to idx + 1 }
         val digitsAndWords = digits + words
     }

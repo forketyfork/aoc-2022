@@ -1,6 +1,5 @@
 package year2023
 
-import year2023.Day07.CardType1
 import kotlin.reflect.KClass
 
 class Day07 {
@@ -21,7 +20,7 @@ class Day07 {
     enum class CardType2 : CardType<CardType2> { J, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, T, Q, K, A }
 
     class Hand<T : CardType<T>>(val string: String, klass: KClass<T>) {
-        val cards: List<T> = string.map { it ->
+        val cards: List<T> = string.map {
             val parser = if (klass == CardType1::class) CardType1::valueOf else CardType2::valueOf
             parser(it.toString()) as T
         }
