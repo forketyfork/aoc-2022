@@ -16,7 +16,9 @@ class Day07 {
 
     interface CardType<T : CardType<T>> : Comparable<T>
 
+    @Suppress("EnumEntryName")
     enum class CardType1 : CardType<CardType1> { `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, T, J, Q, K, A }
+    @Suppress("EnumEntryName")
     enum class CardType2 : CardType<CardType2> { J, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, T, Q, K, A }
 
     class Hand<T : CardType<T>>(val string: String, klass: KClass<T>) {

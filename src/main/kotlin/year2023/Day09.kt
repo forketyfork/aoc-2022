@@ -21,7 +21,7 @@ class Day09 {
     }
 
     fun solve(series: MutableList<MutableList<Long>>): Long {
-        return series.map { line ->
+        return series.sumOf { line ->
             val rowList = mutableListOf<MutableList<Long>>()
             var row = line
             rowList.add(row)
@@ -35,7 +35,7 @@ class Day09 {
             }
             rowList[0].last()
 
-        }.sum()
+        }
     }
 
     fun List<Long>.hasNonZeroes() = any { it != 0L }

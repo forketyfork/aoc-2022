@@ -5,9 +5,7 @@ class Day04 {
     fun Pair<Set<Int>, Set<Int>>.wins() = first.intersect(second).size
 
     fun part1(input: String): Int {
-        return parseCards(input)
-            .map { 1 shl (it.wins() - 1) }
-            .sum()
+        return parseCards(input).sumOf { 1 shl (it.wins() - 1) }
     }
 
     fun part2(input: String): Int {

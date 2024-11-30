@@ -48,7 +48,7 @@ class Day18 {
             }
         }
 
-        return array.map { it.count { it == '#' }.toLong() }.sum()
+        return array.sumOf { it.count { it == '#' }.toLong() }
     }
 
     fun Array<Array<Char>>.fill(col: Int, row: Int, fromCh: Char, toCh: Char): Boolean {

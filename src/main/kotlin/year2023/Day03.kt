@@ -50,7 +50,7 @@ class Day03 {
                     }
                 }
             }
-        }.map { matrix.readNumber(it) }.sum()
+        }.sumOf { matrix.readNumber(it) }
     }
 
     fun part2(input: String): Int {
