@@ -15,16 +15,17 @@ class Day05 {
     fun partition(input: String): List<Pair<List<String>, List<String>>> {
         val (ordering, updates) = input.split("\n\n")
         val orderingSet = ordering.lines().toSet()
-        val sorter = { left: String, right: String ->
-            if (orderingSet.contains("$left|$right")) {
-                -1
-            } else if (orderingSet.contains("$right|$left")) {
-                1
-            } else {
-                0
+        return updates.lines().map { it.split(",") }.map {
+            it to it.sortedWith { o1, o2 ->
+                if (orderingSet.contains("$o1|$o2")) {
+                    -1
+                } else if (orderingSet.contains("$o2|$o1")) {
+                    1
+                } else {
+                    0
+                }
             }
         }
-        return updates.lines().map { it.split(",") }.map { it to it.sortedWith(sorter) }
     }
 
 }
