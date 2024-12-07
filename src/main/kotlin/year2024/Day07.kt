@@ -11,7 +11,7 @@ class Day07 {
         .filter { rec(it, ops) }
         .sumOf { it.first() }
 
-    fun rec(values: List<Long>, ops: List<(Long, Long) -> Long?>, idx: Int= 1, sum: Long? = values[1]): Boolean = when {
+    fun rec(values: List<Long>, ops: List<(Long, Long) -> Long?>, idx: Int = 1, sum: Long? = values[1]): Boolean = when {
         sum == null || sum > values[0] -> false
         idx == values.lastIndex -> sum == values[0]
         else -> ops.any { op -> rec(values, ops, idx + 1, op(sum, values[idx + 1])) }
