@@ -14,7 +14,7 @@ class Day07 {
     fun rec(values: List<Long>, ops: List<(Long, Long) -> Long>, idx: Int = 1, sum: Long = values[1]): Boolean = when {
         sum > values[0] -> false
         idx == values.lastIndex -> sum == values[0]
-        else -> ops.any { op -> rec(values, ops, idx + 1, op(sum, values[idx + 1])) }
+        else -> ops.any { rec(values, ops, idx + 1, it(sum, values[idx + 1])) }
     }
 
 }
