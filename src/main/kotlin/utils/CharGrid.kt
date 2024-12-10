@@ -23,4 +23,24 @@ class CharGrid(val input: String) {
         return grid[pos.x][pos.y]
     }
 
+    fun searchPaths(
+        start: Point2D,
+        terminator: Char,
+        directions: List<Direction> = Direction.SQUARE,
+        canMove: CharGrid.(Point2D, Point2D) -> Boolean,
+        found: MutableList<List<Point2D>>,
+        path: List<Point2D> = listOf(start)
+    ) {
+        if (at(start) == terminator) {
+            found.add(path)
+            return
+        }
+        for (direction in directions) {
+            val next = start.move(direction)
+            if (next !in path && canMove(start, next)) {
+                searchPaths(next, terminator, directions, canMove, found, path + next)
+            }
+        }
+    }
+
 }
