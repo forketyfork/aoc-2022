@@ -56,6 +56,8 @@ enum class Direction(val dx: Int, val dy: Int) {
             'v' -> DOWN
             else -> error("Unknown direction: $arrow")
         }
+
+        val SQUARE = listOf(UP, RIGHT, LEFT, DOWN)
     }
 
 }
