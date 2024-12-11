@@ -41,12 +41,8 @@ class Day09 {
     class Node(val id: Int, val size: Int, var pad: Int)
 
     fun part2(input: String): Long {
-        val nodes = input.toList().chunked(2).mapIndexed { idx, ch ->
-            if (ch.size == 1) {
-                Node(idx, ch[0] - '0', 0)
-            } else {
-                Node(idx, ch[0] - '0', ch[1] - '0')
-            }
+        val nodes = (input + '0').toList().chunked(2).mapIndexed { idx, ch ->
+            Node(idx, ch[0] - '0', ch[1] - '0')
         }.toMutableList()
 
         for (nodeToMove in nodes.size - 1 downTo 1) {
