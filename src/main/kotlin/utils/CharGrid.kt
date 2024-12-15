@@ -1,8 +1,11 @@
 package utils
 
+import java.util.*
+
 class CharGrid(val input: String) {
 
     val grid = input.lines().map { it.toCharArray() }
+    val marks = input.lines().map { BitSet(it.length) }
 
     fun points(): Sequence<Point2D> = generateSequence(Point2D(0, 0)) {
         if (it.x == grid[it.y].lastIndex) {
@@ -16,11 +19,27 @@ class CharGrid(val input: String) {
         }
     }
 
-    fun at(pos: Point2D): Char {
+    operator fun get(pos: Point2D): Char {
         if (pos.y !in 0..grid.lastIndex || pos.x !in 0..grid[0].lastIndex) {
             return 0.toChar()
         }
-        return grid[pos.x][pos.y]
+        return grid[pos.y][pos.x]
+    }
+
+    operator fun set(pos: Point2D, ch: Char) {
+        grid[pos.y][pos.x] = ch
+    }
+
+    fun mark(pos: Point2D) {
+        marks[pos.y].set(pos.x)
+    }
+
+    fun isMarked(pos: Point2D): Boolean {
+        return marks[pos.y][pos.x]
+    }
+
+    fun isClear(pos: Point2D): Boolean {
+        return !marks[pos.y][pos.x]
     }
 
     fun searchPaths(
@@ -31,7 +50,7 @@ class CharGrid(val input: String) {
         found: MutableList<List<Point2D>>,
         path: List<Point2D> = listOf(start)
     ) {
-        if (at(start) == terminator) {
+        if (this[start] == terminator) {
             found.add(path)
             return
         }
@@ -42,5 +61,7 @@ class CharGrid(val input: String) {
             }
         }
     }
+
+    override fun toString(): String = grid.joinToString("\n") { String(it) }
 
 }

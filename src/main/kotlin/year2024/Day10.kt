@@ -10,12 +10,12 @@ class Day10 {
 
     fun solve(input: String, extractor: (List<Point2D>) -> Any): Int {
         val grid = CharGrid(input)
-        return grid.points().filter { grid.at(it) == '0' }.sumOf {
+        return grid.points().filter { grid[it] == '0' }.sumOf {
             buildList {
                 grid.searchPaths(
                     start = it,
                     terminator = '9',
-                    canMove = { prev, next -> at(next) - at(prev) == 1 },
+                    canMove = { prev, next -> get(next) - get(prev) == 1 },
                     found = this
                 )
             }.map(extractor).distinct().size
