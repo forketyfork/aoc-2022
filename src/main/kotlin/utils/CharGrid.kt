@@ -4,8 +4,8 @@ import java.util.*
 
 class CharGrid(val input: String) {
 
-    val grid = input.lines().map { it.toCharArray() }
-    val marks = input.lines().map { BitSet(it.length) }
+    private val grid = input.lines().map { it.toCharArray() }
+    private val marks = input.lines().map { BitSet(it.length) }
 
     fun points(): Sequence<Point2D> = generateSequence(Point2D(0, 0)) {
         if (it.x == grid[it.y].lastIndex) {
