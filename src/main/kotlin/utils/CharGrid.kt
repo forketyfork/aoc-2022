@@ -20,7 +20,7 @@ class CharGrid(val input: String) {
     }
 
     operator fun get(pos: Point2D): Char {
-        if (pos.y !in 0..grid.lastIndex || pos.x !in 0..grid[0].lastIndex) {
+        if (!inBounds(pos)) {
             return 0.toChar()
         }
         return grid[pos.y][pos.x]
@@ -38,28 +38,62 @@ class CharGrid(val input: String) {
         return marks[pos.y][pos.x]
     }
 
-    fun isClear(pos: Point2D): Boolean {
-        return !marks[pos.y][pos.x]
-    }
+    fun isClear(pos: Point2D) = !isMarked(pos)
 
-    fun searchPaths(
+    fun inBounds(pos: Point2D) = pos.y in 0..grid.lastIndex && pos.x in 0..grid[pos.y].lastIndex
+
+    fun dfs(
         start: Point2D,
-        terminator: Char,
+        stopWhen: (Point2D) -> Boolean,
         directions: List<Direction> = Direction.SQUARE,
         canMove: CharGrid.(Point2D, Point2D) -> Boolean,
         found: MutableList<List<Point2D>>,
         path: List<Point2D> = listOf(start)
     ) {
-        if (this[start] == terminator) {
+        if (stopWhen(start)) {
             found.add(path)
             return
         }
         for (direction in directions) {
             val next = start.move(direction)
-            if (next !in path && canMove(start, next)) {
-                searchPaths(next, terminator, directions, canMove, found, path + next)
+            if (inBounds(next) && next !in path && canMove(start, next)) {
+                dfs(next, stopWhen, directions, canMove, found, path + next)
             }
         }
+    }
+
+    fun bfs(
+        start: Point2D,
+        stopWhen: (Point2D) -> Boolean,
+        directions: List<Direction> = Direction.SQUARE,
+        canMove: CharGrid.(Point2D, Point2D) -> Boolean,
+    ): List<Point2D> {
+        val queue = ArrayDeque<Point2D>()
+        val previous = mutableMapOf<Point2D, Point2D>()
+        mark(start)
+        queue.add(start)
+        while (queue.isNotEmpty()) {
+            val element = queue.removeFirst()
+            for (direction in directions) {
+                val next = element.move(direction)
+                if (inBounds(next) && isClear(next) && canMove(element, next)) {
+                    previous[next] = element
+                    if (stopWhen(next)) {
+                        var step: Point2D? = element
+                        return buildList {
+                            while (step != null) {
+                                add(step)
+                                step = previous[step]
+                            }
+                        }.reversed()
+                    } else {
+                        mark(next)
+                        queue.add(next)
+                    }
+                }
+            }
+        }
+        return emptyList<Point2D>()
     }
 
     override fun toString(): String = grid.joinToString("\n") { String(it) }

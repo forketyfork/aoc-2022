@@ -12,9 +12,9 @@ class Day10 {
         val grid = CharGrid(input)
         return grid.points().filter { grid[it] == '0' }.sumOf {
             buildList {
-                grid.searchPaths(
+                grid.dfs(
                     start = it,
-                    terminator = '9',
+                    stopWhen = { grid[it] == '9' },
                     canMove = { prev, next -> get(next) - get(prev) == 1 },
                     found = this
                 )
