@@ -5,20 +5,35 @@ import utils.Point2D
 
 class Day18 {
 
-    fun part1(input: String): Long {
+    fun part1(input: String): Int {
         val (size, simulations, blocks) = parse(input)
         val grid = CharGrid((".".repeat(size) + "\n").repeat(size))
         blocks.take(simulations).forEach { grid[it] = '#' }
         val end = Point2D(size - 1, size - 1)
         return grid.bfs(
-            start = Point2D(0, 0),
+            start = Point2D.ORIGIN,
             stopWhen = { it == end },
             canMove = { p1, p2 -> grid[p2] != '#' },
-        ).size.toLong()
+        ).size
     }
 
-    fun part2(input: String): Long {
-        return 0L
+    fun part2(input: String): Point2D {
+        val (size, _, blocks) = parse(input)
+        val grid = CharGrid((".".repeat(size) + "\n").repeat(size))
+        blocks.forEach { block ->
+            grid[block] = '#'
+            val end = Point2D(size - 1, size - 1)
+            grid.resetMarks()
+            if (grid.bfs(
+                    start = Point2D.ORIGIN,
+                    stopWhen = { it == end },
+                    canMove = { p1, p2 -> grid[p2] != '#' },
+                ).isEmpty()
+            ) {
+                return block
+            }
+        }
+        return Point2D(-1, -1)
     }
 
     private fun parse(input: String): Triple<Int, Int, List<Point2D>> {

@@ -42,6 +42,10 @@ class CharGrid(val input: String) {
 
     fun inBounds(pos: Point2D) = pos.y in 0..grid.lastIndex && pos.x in 0..grid[pos.y].lastIndex
 
+    fun resetMarks() {
+        marks.forEach { it.clear() }
+    }
+
     fun dfs(
         start: Point2D,
         stopWhen: (Point2D) -> Boolean,
