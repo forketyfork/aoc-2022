@@ -3,3 +3,4 @@
 build
 src/**/*_personal
 .DS_Store
+*.hprof
