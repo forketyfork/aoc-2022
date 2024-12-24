@@ -100,6 +100,12 @@ class CharGrid(val input: String) {
         return emptyList<Point2D>()
     }
 
+    fun find(ch: Char): Point2D {
+        val row = grid.indexOfFirst { it.contains(ch) }
+        val col = grid[row].indexOf(ch)
+        return Point2D(col, row)
+    }
+
     override fun toString(): String = grid.joinToString("\n") { String(it) }
 
 }
