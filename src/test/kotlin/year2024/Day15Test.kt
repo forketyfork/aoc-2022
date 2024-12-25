@@ -15,7 +15,7 @@ class Day15Test {
                 Arguments.of("year2024/Day15_sample1", 2028L, 0L),
                 Arguments.of("year2024/Day15_sample2", 10092L, 0L),
             ),
-            Arguments.of("year2024/Day15_personal", 0L, 0L)
+            Arguments.of("year2024/Day15_personal", 1463715L, 0L)
         )
     }
 
