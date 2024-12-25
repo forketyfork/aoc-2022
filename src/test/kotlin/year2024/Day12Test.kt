@@ -18,7 +18,7 @@ class Day12Test {
                 Arguments.of("year2024/Day12_sample4", 692L, 236L),
                 Arguments.of("year2024/Day12_sample5", 1184L, 368L),
             ),
-            Arguments.of("year2024/Day12_personal", 1381056L, 0L)
+            Arguments.of("year2024/Day12_personal", 1381056L, 834828L)
         )
     }
 
