@@ -106,6 +106,11 @@ class CharGrid(val input: String) {
         return Point2D(col, row)
     }
 
+    fun row(idx: Int): String = String(grid[idx])
+    fun col(idx: Int): String = grid.map { it[idx] }.joinToString()
+
+    fun cols(): List<String> = grid[0].indices.map { idx -> grid.map { row -> row[idx] }.joinToString() }
+
     override fun toString(): String = grid.joinToString("\n") { String(it) }
 
 }
