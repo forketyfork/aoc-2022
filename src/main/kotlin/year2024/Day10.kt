@@ -10,7 +10,7 @@ class Day10 {
 
     fun solve(input: String, extractor: (List<Point2D>) -> Any): Int {
         val grid = CharGrid(input)
-        return grid.points().filter { grid[it] == '0' }.sumOf {
+        return grid.pointSequence().filter { grid[it] == '0' }.sumOf {
             buildList {
                 grid.dfs(
                     start = it,

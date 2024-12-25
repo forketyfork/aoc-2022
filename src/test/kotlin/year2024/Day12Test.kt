@@ -12,7 +12,11 @@ class Day12Test {
         @JvmStatic
         fun data() = cases(
             arrayOf(
-                Arguments.of("year2024/Day12_sample", 1930L, 1206L),
+                Arguments.of("year2024/Day12_sample1", 140L, 80L),
+                Arguments.of("year2024/Day12_sample2", 772L, 436L),
+                Arguments.of("year2024/Day12_sample3", 1930L, 1206L),
+                Arguments.of("year2024/Day12_sample4", 692L, 236L),
+                Arguments.of("year2024/Day12_sample5", 1184L, 368L),
             ),
             Arguments.of("year2024/Day12_personal", 1381056L, 0L)
         )

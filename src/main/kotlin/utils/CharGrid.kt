@@ -7,7 +7,7 @@ class CharGrid(val input: String) {
     private val grid = input.lines().map { it.toCharArray() }
     private val marks = input.lines().map { BitSet(it.length) }
 
-    fun points(): Sequence<Point2D> = generateSequence(Point2D(0, 0)) {
+    fun pointSequence(): Sequence<Point2D> = generateSequence(Point2D(0, 0)) {
         if (it.x == grid[it.y].lastIndex) {
             if (it.y == grid.lastIndex) {
                 null
@@ -68,9 +68,11 @@ class CharGrid(val input: String) {
 
     fun bfs(
         start: Point2D,
-        stopWhen: (Point2D) -> Boolean,
+        stopWhen: (Point2D) -> Boolean = { false },
         directions: List<Direction> = Direction.SQUARE,
         canMove: CharGrid.(Point2D, Point2D) -> Boolean,
+        onCell: (Point2D) -> Unit = { },
+        onWall: (Point2D, Direction) -> Unit = { _, _ -> }
     ): List<Point2D> {
         val queue = ArrayDeque<Point2D>()
         val previous = mutableMapOf<Point2D, Point2D>()
@@ -80,27 +82,32 @@ class CharGrid(val input: String) {
             val element = queue.removeFirst()
             for (direction in directions) {
                 val next = element.move(direction)
-                if (inBounds(next) && isClear(next) && canMove(element, next)) {
-                    previous[next] = element
-                    if (stopWhen(next)) {
-                        var step: Point2D? = element
-                        return buildList {
-                            while (step != null) {
-                                add(step)
-                                step = previous[step]
-                            }
-                        }.reversed()
-                    } else {
-                        mark(next)
-                        queue.add(next)
+                if (canMove(element, next)) {
+                    if (inBounds(next) && isClear(next)) {
+                        onCell(next)
+                        previous[next] = element
+                        if (stopWhen(next)) {
+                            var step: Point2D? = element
+                            return buildList {
+                                while (step != null) {
+                                    add(step)
+                                    step = previous[step]
+                                }
+                            }.reversed()
+                        } else {
+                            mark(next)
+                            queue.add(next)
+                        }
                     }
+                } else {
+                    onWall(element, direction)
                 }
             }
         }
         return emptyList<Point2D>()
     }
 
-    fun find(ch: Char): Point2D {
+    fun findFirst(ch: Char): Point2D {
         val row = grid.indexOfFirst { it.contains(ch) }
         val col = grid[row].indexOf(ch)
         return Point2D(col, row)
@@ -109,6 +116,7 @@ class CharGrid(val input: String) {
     fun row(idx: Int): String = String(grid[idx])
     fun col(idx: Int): String = grid.map { it[idx] }.joinToString()
 
+    fun rows(): List<String> = grid.map { String(it) }
     fun cols(): List<String> = grid[0].indices.map { idx -> grid.map { row -> row[idx] }.joinToString() }
 
     override fun toString(): String = grid.joinToString("\n") { String(it) }
