@@ -27,8 +27,8 @@ class Day16 {
         start: Point2D,
         end: Point2D,
         dir: Direction,
-        paths: MutableMap<Long, MutableList<List<Point2D>>>,
-        path: List<Point2D> = listOf(start),
+        shortestPaths: MutableMap<Long, MutableList<List<Point2D>>>,
+        currentPath: MutableList<Point2D> = mutableListOf(start),
         minCost: MutableMap<Point2D, Pair<Direction, Long>> = mutableMapOf(),
         points: Long = 0
     ) {
@@ -43,8 +43,8 @@ class Day16 {
         val newMinCost = min(startMinCostAdjusted, points)
         minCost[start] = dir to newMinCost
         if (start == end) {
-            paths.computeIfAbsent(newMinCost) { mutableListOf() }.add(path)
-            paths.keys.removeAll { it > newMinCost }
+            shortestPaths.computeIfAbsent(newMinCost) { mutableListOf() }.add(currentPath.toList())
+            shortestPaths.keys.removeAll { it > newMinCost }
             return
         }
 
@@ -52,7 +52,9 @@ class Day16 {
             val next = start.move(newDir)
             if (this[next] != '#') {
                 val cost = points + (if (dir == newDir) 1 else 1001)
-                dfs(next, end, newDir, paths, path + next, minCost, cost)
+                currentPath.add(next)
+                dfs(next, end, newDir, shortestPaths, currentPath, minCost, cost)
+                currentPath.removeLast()
             }
         }
 
