@@ -4,3 +4,5 @@ build
 src/**/*_personal
 .DS_Store
 *.hprof
+2024-14
+.kotlin/

@@ -1,6 +1,7 @@
 package year2024
 
-import utils.*
+import utils.CharGrid
+import utils.Point2D
 import java.awt.Dimension
 import java.awt.image.BufferedImage
 import java.io.File
@@ -45,9 +46,8 @@ class Day14 {
     }
 
     fun part2(input: String): Long {
+        val magic = 7916L
         val (width, height, robots) = parse(input)
-
-        val limit = robots.size / 12L
 
         for (iter in 1L..(width * height)) {
 
@@ -66,18 +66,21 @@ class Day14 {
                     }
                 }
             }
-            if ((iter - 38) % 101 == 0L) {
+            if (iter == magic) {
                 val size = Dimension(width, height)
                 val img = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB)
-                for (x in 0 until size.width){
+                for (x in 0 until size.width) {
                     for (y in 0 until size.height) {
                         img.setRGB(x, y, if (grid[Point2D(x, y)] == '*') 0x00ff00 else 0xff0000)
                     }
                 }
-                ImageIO.write(img, "BMP", File("/Users/sergei.petunin/Downloads/test/$iter.bmp"))
+
+                File("2024-14").mkdir()
+
+                ImageIO.write(img, "BMP", File("2024-14/$iter.bmp"))
             }
         }
-        return 0L
+        return magic
     }
 
     fun parse(input: String): Triple<Int, Int, List<Robot>> {
