@@ -32,12 +32,12 @@ class Day17Test {
         // If register A contains 10, the program 5,0,5,1,5,4 would output 0,1,2.
         computer = Day17.Computer(10, 0, 0, listOf(5, 0, 5, 1, 5, 4))
         var output = computer.run()
-        assertThat(output).isEqualTo(listOf(0, 1, 2))
+        assertThat(output).isEqualTo(listOf(0L, 1L, 2L))
 
         // If register A contains 2024, the program 0,1,5,4,3,0 would output 4,2,5,6,7,7,7,7,3,1,0 and leave 0 in register A.
         computer = Day17.Computer(2024, 0, 0, listOf(0, 1, 5, 4, 3, 0))
         output = computer.run()
-        assertThat(output).isEqualTo(listOf(4,2,5,6,7,7,7,7,3,1,0))
+        assertThat(output).isEqualTo(listOf(4L, 2L, 5L, 6L, 7L, 7L, 7L, 7L, 3L, 1L, 0L))
         assertThat(computer.a).isEqualTo(0)
 
         // If register B contains 29, the program 1,7 would set register B to 26.
