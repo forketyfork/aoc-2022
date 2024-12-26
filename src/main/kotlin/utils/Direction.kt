@@ -39,6 +39,18 @@ enum class Direction(val dx: Int, val dy: Int) {
         else -> error("Can't rotate $this to $direction")
     }
 
+    fun rotations(direction: Direction): Int {
+        return if (this == direction) {
+            0
+        } else if (this.rotate(RIGHT) == direction || this.rotate(LEFT) == direction) {
+            1
+        } else if (this.rotate(RIGHT).rotate(RIGHT) == direction) {
+            2
+        } else {
+            error("Wrong direction")
+        }
+    }
+
     operator fun component1() = dx
 
     operator fun component2() = dy
