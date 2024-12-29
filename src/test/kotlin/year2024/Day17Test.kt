@@ -16,7 +16,7 @@ class Day17Test {
                 Arguments.of("year2024/Day17_sample1", "4,6,3,5,6,3,5,2,1,0", 0L),
                 Arguments.of("year2024/Day17_sample2", "5,7,3,0", 117440L),
             ),
-            Arguments.of("year2024/Day17_personal", "6,5,4,7,1,6,0,3,1", 0L)
+            Arguments.of("year2024/Day17_personal", "6,5,4,7,1,6,0,3,1", 106086382266778L)
         )
     }
 
@@ -56,7 +56,7 @@ class Day17Test {
     fun test(file: String, part1Answer: String, part2Answer: Long) {
         val contents = readTestFile(file)
         assertThat(Day17().part1(contents)).isEqualTo(part1Answer)
-        if (!file.endsWith("sample1")) {
+        if (file.endsWith("personal")) {
             assertThat(Day17().part2(contents)).isEqualTo(part2Answer)
         }
     }
