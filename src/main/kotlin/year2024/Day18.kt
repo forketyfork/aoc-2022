@@ -14,7 +14,7 @@ class Day18 {
             start = Point2D.ORIGIN,
             stopWhen = { it == end },
             canMove = { p1, p2 -> grid[p2] != '#' },
-        ).size
+        ).size - 1
     }
 
     fun part2(input: String): Point2D {

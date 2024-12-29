@@ -89,6 +89,7 @@ class CharGrid(val input: String) {
                         if (stopWhen(next)) {
                             var step: Point2D? = element
                             return buildList {
+                                add(next)
                                 while (step != null) {
                                     add(step)
                                     step = previous[step]
