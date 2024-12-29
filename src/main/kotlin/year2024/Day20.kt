@@ -17,7 +17,7 @@ class Day20 {
                 cheatStart to cheatStart.move(dir)
             }
         }
-            .filter { (cheatStart, cheatEnd) -> grid[cheatStart] == '#' && grid[cheatEnd] != '#' }
+            .filter { (cheatStart, cheatEnd) -> grid.inBorder(cheatStart) && grid.inBorder(cheatEnd) && grid[cheatStart] == '#' && grid[cheatEnd] != '#' }
             .map { (cheatStart, cheatEnd) ->
                 grid.resetMarks()
                 grid[cheatStart] = '.'

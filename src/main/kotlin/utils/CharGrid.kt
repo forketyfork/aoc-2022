@@ -41,6 +41,7 @@ class CharGrid(val input: String) {
     fun isClear(pos: Point2D) = !isMarked(pos)
 
     fun inBounds(pos: Point2D) = pos.y in 0..grid.lastIndex && pos.x in 0..grid[pos.y].lastIndex
+    fun inBorder(pos: Point2D) = pos.y in 1..grid.lastIndex - 1 && pos.x in 1..grid[pos.y].lastIndex - 1
 
     fun resetMarks() {
         marks.forEach { it.clear() }
@@ -74,9 +75,12 @@ class CharGrid(val input: String) {
         onCell: (Point2D) -> Unit = { },
         onWall: (Point2D, Direction) -> Unit = { _, _ -> }
     ): List<Point2D> {
+        mark(start)
+        if (stopWhen(start)) {
+            return listOf(start)
+        }
         val queue = ArrayDeque<Point2D>()
         val previous = mutableMapOf<Point2D, Point2D>()
-        mark(start)
         queue.add(start)
         while (queue.isNotEmpty()) {
             val element = queue.removeFirst()
