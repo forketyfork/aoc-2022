@@ -5,11 +5,28 @@ class Day19 {
 
     fun part1(input: String): Int {
         val (patterns, designs) = parse(input)
-        return designs.count { design -> canBeBuiltFrom(design, patterns.toSet()) }
+        buildMap<String, Long> {
+            put("", 1L)
+            return designs.count { design -> count(design, patterns) > 0 }
+        }
+
     }
 
     fun part2(input: String): Long {
-        return 0L
+        val (patterns, designs) = parse(input)
+        buildMap<String, Long> {
+            put("", 1L)
+            return designs.sumOf { design -> count(design, patterns) }
+        }
+    }
+
+    fun MutableMap<String, Long>.count(design: String, patterns: List<String>): Long {
+        return computeIfAbsent(design) { design ->
+            patterns.filter { design.startsWith(it) }
+                .sumOf { prefix ->
+                    count(design.removePrefix(prefix), patterns)
+                }
+        }
     }
 
     fun parse(input: String): Pair<List<String>, List<String>> {
@@ -17,25 +34,6 @@ class Day19 {
         val patterns = lines.first().split(",\\s".toRegex())
         val designs = lines.drop(2)
         return patterns to designs
-    }
-
-    fun canBeBuiltFrom(design: String, patterns: Set<String>): Boolean {
-        if (design.isEmpty() || design in patterns) {
-            return true
-        }
-
-        val prefixes = patterns.filter { design.startsWith(it) }
-        val suffixes = patterns.filter { design.endsWith(it) }
-
-        if (prefixes.isEmpty() || suffixes.isEmpty()) {
-            return false
-        }
-
-        return prefixes.any { prefix ->
-            suffixes.any { suffix ->
-                canBeBuiltFrom(design.removePrefix(prefix).removeSuffix(suffix), patterns)
-            }
-        }
     }
 
 }
