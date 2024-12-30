@@ -16,7 +16,7 @@ class Day21Test {
             arrayOf(
                 Arguments.of("year2024/Day21_sample", 126384L, 0L),
             ),
-            Arguments.of("year2024/Day21_personal", 238078L, 0L)
+            Arguments.of("year2024/Day21_personal", 238078L, 293919502998014L)
         )
     }
 

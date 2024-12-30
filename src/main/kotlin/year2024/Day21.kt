@@ -6,7 +6,7 @@ import utils.Point2D
 
 class Day21 {
 
-    fun MutableMap<Pair<Char, Char>, String>.bfs(grid: CharGrid, start: Point2D) {
+    fun MutableMap<String, String>.bfs(grid: CharGrid, start: Point2D) {
         val block = grid.findFirst('#')
 
         grid.resetMarks()
@@ -30,7 +30,7 @@ class Day21 {
         }
 
         grid.pointSequence().forEach { point ->
-            if (point != start && grid[point] != '#') {
+            if (grid[point] != '#') {
                 val list = mutableListOf<Direction>()
                 var curr: Point2D? = point
                 while (curr != null) {
@@ -45,7 +45,7 @@ class Day21 {
                 val list2 = list1.reversed()
 
                 put(
-                    grid[start] to grid[point],
+                    "${grid[start]}${grid[point]}",
                     buildList {
                         if (!list1.passesThrough(start, block)) add(list1.joinToString(""))
                         if (list2 != list1 && !list2.passesThrough(start, block)) add(list2.joinToString(""))
@@ -78,44 +78,35 @@ class Day21 {
 
     fun solve(input: String, robots: Int): Long {
 
-        println("Max memory: ${Runtime.getRuntime().maxMemory()}")
-
-
         val numGrid = CharGrid("789\n456\n123\n#0A")
         val arrowGrid = CharGrid("#^A\n<v>")
 
-        val numPaths = buildMap<Pair<Char, Char>, String> {
+        val numPaths = buildMap<String, String> {
             numGrid.pointSequence().forEach { point ->
                 if (numGrid[point] != '#') bfs(numGrid, point)
             }
         }
 
-        val arrowPaths = buildMap<Pair<Char, Char>, String> {
+        val arrowPaths = buildMap<String, String> {
             arrowGrid.pointSequence().forEach { point ->
                 if (arrowGrid[point] != '#') bfs(arrowGrid, point)
             }
         }
 
         return input.lines().sumOf { code ->
-            (0..<robots).fold(path(code, numPaths)) { code, iteration ->
-                println("Iteration: $iteration, code size: ${code.length}")
+            ((0..<robots).fold(path(code.toPairCounts(), numPaths)) { code, iteration ->
                 path(code, arrowPaths)
-            }.length * code.removeSuffix("A").toLong()
+            }.values.sum()) * code.removeSuffix("A").toLong()
         }
     }
 
-    fun path(code: String, paths: Map<Pair<Char, Char>, String>): String {
-        val sb = StringBuilder()
-        var ch1 = 'A'
-        for (i in (0..code.lastIndex)) {
-            val ch2 = code[i]
-            if (ch1 != ch2) {
-                sb.append(paths[ch1 to ch2]!!)
-            }
-            sb.append('A')
-            ch1 = ch2
-        }
-        return sb.toString()
+    fun path(pairCounts: Map<String, Long>, paths: Map<String, String>): Map<String, Long> {
+        return pairCounts.map { (pair, count) ->
+            (paths[pair]!! + "A").toPairCounts().mapValues { it.value * count }
+        }.reduce { m1, m2 -> (m1.keys + m2.keys).toSet().associateWith { key -> (m1[key] ?: 0L) + (m2[key] ?: 0L) } }
     }
+
+    fun String.toPairCounts(): Map<String, Long> =
+        "A$this".windowed(2).groupBy { it }.mapValues { it.value.size.toLong() }
 
 }
