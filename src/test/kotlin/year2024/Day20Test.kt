@@ -13,18 +13,18 @@ class Day20Test {
         @JvmStatic
         fun data() = cases(
             arrayOf(
-                Arguments.of("year2024/Day20_sample", 2, 44, 0L),
+                Arguments.of("year2024/Day20_sample", 2, 44, 50, 285),
             ),
-            Arguments.of("year2024/Day20_personal", 100, 1367, 0L)
+            Arguments.of("year2024/Day20_personal", 100, 1367, 100, 1006850)
         )
     }
 
     @ParameterizedTest(name = "File {0}, part 1 answer = {1}, part 2 answer = {2}")
     @MethodSource("data")
-    fun test(file: String, part1MinSavedTime: Int, part1Answer: Int, part2Answer: Long) {
+    fun test(file: String, part1MinSavedTime: Int, part1Answer: Int, part2MinSavedTime: Int, part2Answer: Int) {
         val contents = readTestFile(file)
         assertThat(Day20().part1(contents, part1MinSavedTime)).isEqualTo(part1Answer)
-        assertThat(Day20().part2(contents)).isEqualTo(part2Answer)
+        assertThat(Day20().part2(contents, part2MinSavedTime)).isEqualTo(part2Answer)
     }
 
 }

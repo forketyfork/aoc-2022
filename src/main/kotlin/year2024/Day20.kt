@@ -2,59 +2,43 @@ package year2024
 
 import utils.CharGrid
 import utils.Direction
-import utils.Point2D
 
 class Day20 {
 
-    fun CharGrid.calculateDistances(start: Point2D) = buildMap {
-        val queue = ArrayDeque<Pair<Point2D, Int>>()
-        queue.add(start to 0)
-        put(start, 0)
-        while (queue.isNotEmpty()) {
-            val (next, nextDistance) = queue.removeFirst()
-            if (this@calculateDistances[next] != '#') {
-                val startToNeighbour = nextDistance + 1
-                Direction.SQUARE.forEach { dir ->
-                    val neighbour = next.move(dir)
-                    if (inBounds(neighbour) && !containsKey(neighbour)) {
-                        queue.add(neighbour to startToNeighbour)
-                        put(neighbour, startToNeighbour)
-                    }
-                }
-            }
-        }
-    }
+    fun part1(input: String, minSavedTime: Int) = solve(input, minSavedTime, 2)
+    fun part2(input: String, minSavedTime: Int) = solve(input, minSavedTime, 20)
 
-    fun part1(input: String, minSavedTime: Int): Int {
+    fun solve(input: String, minSavedTime: Int, distance: Int): Int {
 
         val grid = CharGrid(input)
         val start = grid.findFirst('S')
         val end = grid.findFirst('E')
 
-        val startCache = grid.calculateDistances(start)
-        val endCache = grid.calculateDistances(end)
-
-        val shortest = startCache[end]!!
-
-        return grid.pointSequence().flatMap { cheatStart ->
-            Direction.SQUARE.map { dir ->
-                cheatStart to cheatStart.move(dir)
+        val path = buildList {
+            add(start)
+            var curr = start
+            var lastDir: Direction = Direction.SQUARE.find { grid[curr.move(it)] != '#' }!!
+            while (curr != end) {
+                lastDir = listOf(
+                    lastDir,
+                    lastDir.rotate(Direction.RIGHT),
+                    lastDir.rotate(Direction.LEFT)
+                ).find { grid[curr.move(it)] != '#' }!!
+                curr = curr.move(lastDir)
+                add(curr)
             }
         }
-            .filter { (cheatStart, cheatEnd) -> grid.inBorder(cheatStart) && grid.inBorder(cheatEnd) && grid[cheatStart] == '#' && grid[cheatEnd] != '#' }
-            .map { (cheatStart, cheatEnd) ->
-                val path1Len = startCache[cheatStart]!!
-                val path2Len = endCache[cheatEnd]!!
-                shortest - (path1Len + 1 + path2Len)
-            }.filter { it > 0 }
-            .groupBy { it }
-            .mapValues { (_, value) -> value.size }
-            .filterKeys { it >= minSavedTime }
-            .values.sum()
-    }
 
-    fun part2(input: String): Long {
-        return 0L
+        return buildList {
+            (0..path.lastIndex - distance).forEach { idx1 ->
+                (idx1 + distance..path.lastIndex).forEach { idx2 ->
+                    val manhattanDistance = path[idx1].manhattan(path[idx2])
+                    if (manhattanDistance < (idx2 - idx1) && manhattanDistance <= distance) {
+                        add(idx2 - idx1 - manhattanDistance)
+                    }
+                }
+            }
+        }.count { it >= minSavedTime }
     }
 
 }
