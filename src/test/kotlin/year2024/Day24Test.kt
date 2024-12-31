@@ -16,7 +16,7 @@ class Day24Test {
                 Arguments.of("year2024/Day24_sample1", 4L, ""),
                 Arguments.of("year2024/Day24_sample2", 2024L, ""),
             ),
-            Arguments.of("year2024/Day24_personal", 45121475050728L, "")
+            Arguments.of("year2024/Day24_personal", 45121475050728L, "gqp,hsw,jmh,mwk,qgd,z10,z18,z33")
         )
     }
 
