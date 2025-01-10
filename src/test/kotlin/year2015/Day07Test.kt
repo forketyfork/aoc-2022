@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-@Disabled // TODO
 class Day07Test {
 
     companion object {
@@ -24,7 +23,7 @@ class Day07Test {
                 Arguments.of("year2015/Day07_sample", "x", 123L, 0L),
                 Arguments.of("year2015/Day07_sample", "y", 456L, 0L),
             ),
-            Arguments.of("year2015/Day07_personal", "a", 0L, 0L)
+            Arguments.of("year2015/Day07_personal", "a", 46065L, 14134L)
         )
     }
 
@@ -33,6 +32,8 @@ class Day07Test {
     fun test(file: String, root: String, part1Answer: Long, part2Answer: Long) {
         val contents = readTestFile(file)
         assertThat(Day07().part1(contents, root)).isEqualTo(part1Answer)
-        assertThat(Day07().part2(contents)).isEqualTo(part2Answer)
+        if (file.endsWith("personal")) {
+            assertThat(Day07().part2(contents)).isEqualTo(part2Answer)
+        }
     }
 }
