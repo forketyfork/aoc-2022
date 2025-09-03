@@ -13,14 +13,11 @@ private fun List<*>.compareTo(other: List<*>): Int {
     val a = this[0]
     val b = other[0]
 
-    val result = if (a is Int && b is Int) {
-        a - b
-    } else if (a is Int && b is List<*>) {
-        listOf(a).compareTo(b)
-    } else if (a is List<*> && b is Int) {
-        a.compareTo(listOf(b))
-    } else {
-        (a as List<*>).compareTo(b as List<*>)
+    val result = when (a) {
+        is Int if b is Int -> a - b
+        is Int if b is List<*> -> listOf(a).compareTo(b)
+        is List<*> if b is Int -> a.compareTo(listOf(b))
+        else -> (a as List<*>).compareTo(b as List<*>)
     }
 
     return if (result == 0) {
@@ -53,7 +50,7 @@ class Day13 {
             .toList()
 
         return (1 + lines.indexOfFirst { it.compareTo(marker1) == 0 }) *
-                (1 + lines.indexOfFirst { it.compareTo(marker2) == 0 })
+            (1 + lines.indexOfFirst { it.compareTo(marker2) == 0 })
     }
 
     private fun parse(line: String): List<*> {

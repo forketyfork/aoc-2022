@@ -1,8 +1,8 @@
 package year2024
 
-import utils.toLong
+import utils.*
 import java.util.*
-import kotlin.math.min
+import kotlin.math.*
 
 class Day17 {
 
@@ -31,15 +31,13 @@ class Day17 {
             return output
         }
 
-        private fun combo(operand: Long): Long = if (operand in 0..3) {
-            operand
-        } else if (operand == 4L) {
-            a
-        } else if (operand == 5L) {
-            b
-        } else if (operand == 6L) {
-            c
-        } else error("Wrong value of combo operand: $operand")
+        private fun combo(operand: Long): Long = when (operand) {
+            in 0..3 -> operand
+            4L -> a
+            5L -> b
+            6L -> c
+            else -> error("Wrong value of combo operand: $operand")
+        }
 
         fun run(opcode: Long, operand: Long) = when (opcode) {
             0L -> adv(operand)

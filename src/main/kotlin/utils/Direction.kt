@@ -40,14 +40,11 @@ enum class Direction(val dx: Int, val dy: Int) {
     }
 
     fun rotations(direction: Direction): Int {
-        return if (this == direction) {
-            0
-        } else if (this.rotate(RIGHT) == direction || this.rotate(LEFT) == direction) {
-            1
-        } else if (this.rotate(RIGHT).rotate(RIGHT) == direction) {
-            2
-        } else {
-            error("Wrong direction")
+        return when (direction) {
+            this -> 0
+            this.rotate(RIGHT), this.rotate(LEFT) -> 1
+            this.rotate(RIGHT).rotate(RIGHT) -> 2
+            else -> error("Wrong direction")
         }
     }
 

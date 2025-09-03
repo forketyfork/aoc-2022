@@ -13,7 +13,7 @@ class Day18 {
         return grid.bfs(
             start = Point2D.ORIGIN,
             stopWhen = { it == end },
-            canMove = { p1, p2 -> grid[p2] != '#' },
+            canMove = { _, p2 -> grid[p2] != '#' },
         ).size - 1
     }
 
@@ -27,7 +27,7 @@ class Day18 {
             if (grid.bfs(
                     start = Point2D.ORIGIN,
                     stopWhen = { it == end },
-                    canMove = { p1, p2 -> grid[p2] != '#' },
+                    canMove = { _, p2 -> grid[p2] != '#' },
                 ).isEmpty()
             ) {
                 return block

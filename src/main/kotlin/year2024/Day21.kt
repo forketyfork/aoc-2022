@@ -81,20 +81,20 @@ class Day21 {
         val numGrid = CharGrid("789\n456\n123\n#0A")
         val arrowGrid = CharGrid("#^A\n<v>")
 
-        val numPaths = buildMap<String, String> {
+        val numPaths = buildMap {
             numGrid.pointSequence().forEach { point ->
                 if (numGrid[point] != '#') bfs(numGrid, point)
             }
         }
 
-        val arrowPaths = buildMap<String, String> {
+        val arrowPaths = buildMap {
             arrowGrid.pointSequence().forEach { point ->
                 if (arrowGrid[point] != '#') bfs(arrowGrid, point)
             }
         }
 
         return input.lines().sumOf { code ->
-            ((0..<robots).fold(path(code.toPairCounts(), numPaths)) { code, iteration ->
+            ((0..<robots).fold(path(code.toPairCounts(), numPaths)) { code, _ ->
                 path(code, arrowPaths)
             }.values.sum()) * code.removeSuffix("A").toLong()
         }
