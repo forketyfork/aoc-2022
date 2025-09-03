@@ -45,7 +45,7 @@ class Day22 {
 
         return buildMap {
             maps.forEach { map ->
-                map.forEach { key, value -> merge(key, value, Int::plus) }
+                map.forEach { (key, value) -> merge(key, value, Int::plus) }
             }
         }.values.max()
     }

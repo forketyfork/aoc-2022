@@ -44,7 +44,7 @@ class Day24 {
 
     fun parseNodeMap(input: String): Map<String, Node> {
         val (leavesPart, opsPart) = input.split("\n\n")
-        return buildMap<String, Node> {
+        return buildMap {
 
             leavesPart.lines().forEach {
                 val (name, valueString) = it.split(": ")

@@ -23,7 +23,7 @@ class Day08 {
         if (it == '\\' || it == '"') {
             2
         } else {
-            1.toInt()
+            1
         }
     }
 

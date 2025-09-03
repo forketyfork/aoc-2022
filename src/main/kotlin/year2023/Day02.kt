@@ -39,7 +39,7 @@ class Day02 {
     fun part2(input: String): Int {
         return input.lines()
             .filter { it.isNotBlank() }.sumOf { line ->
-                buildMap<String, Int> {
+                buildMap {
                     parseLine(line).second.forEach { pair ->
                         put(pair.first, maxOf(getOrDefault(pair.first, 0), pair.second))
                     }

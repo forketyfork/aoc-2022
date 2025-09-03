@@ -41,7 +41,6 @@ class CharGrid(val input: String) {
     fun isClear(pos: Point2D) = !isMarked(pos)
 
     fun inBounds(pos: Point2D) = pos.y in 0..grid.lastIndex && pos.x in 0..grid[pos.y].lastIndex
-    fun inBorder(pos: Point2D) = pos.y in 1..grid.lastIndex - 1 && pos.x in 1..grid[pos.y].lastIndex - 1
 
     fun resetMarks() {
         marks.forEach { it.clear() }
@@ -109,7 +108,7 @@ class CharGrid(val input: String) {
                 }
             }
         }
-        return emptyList<Point2D>()
+        return emptyList()
     }
 
     fun findFirst(ch: Char): Point2D {
