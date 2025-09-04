@@ -42,12 +42,12 @@ class Day17Test {
 
         // If register B contains 29, the program 1,7 would set register B to 26.
         computer = Day17.Computer(0, 29, 0, listOf(1, 7))
-        output = computer.run()
+        computer.run()
         assertThat(computer.b).isEqualTo(26)
 
         // If register B contains 2024 and register C contains 43690, the program 4,0 would set register B to 44354.
         computer = Day17.Computer(0, 2024, 43690, listOf(4, 0))
-        output = computer.run()
+        computer.run()
         assertThat(computer.b).isEqualTo(44354)
     }
 

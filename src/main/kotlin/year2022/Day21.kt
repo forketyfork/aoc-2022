@@ -62,7 +62,7 @@ class Day21 {
 
     }
 
-    private fun buildGraph(input: String) = buildMap<String, Node> {
+    private fun buildGraph(input: String) = buildMap {
         input.lines().forEach { line ->
             val name = line.substringBefore(':')
             val node = computeIfAbsent(name, ::Node)
@@ -78,7 +78,7 @@ class Day21 {
     fun part1(input: String) = buildGraph(input).value()
 
     fun part1Coroutines(input: String) = runBlocking {
-        buildMap<String, Channel<Long>> {
+        buildMap {
             input.lines().forEach { line ->
                 val channel = computeIfAbsent(line.substringBefore(':')) { _ -> Channel() }
                 launch {

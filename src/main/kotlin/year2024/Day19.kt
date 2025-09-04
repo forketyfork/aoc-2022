@@ -5,7 +5,7 @@ class Day19 {
 
     fun part1(input: String): Int {
         val (patterns, designs) = parse(input)
-        buildMap<String, Long> {
+        buildMap {
             put("", 1L)
             return designs.count { design -> count(design, patterns) > 0 }
         }
@@ -14,7 +14,7 @@ class Day19 {
 
     fun part2(input: String): Long {
         val (patterns, designs) = parse(input)
-        buildMap<String, Long> {
+        buildMap {
             put("", 1L)
             return designs.sumOf { design -> count(design, patterns) }
         }

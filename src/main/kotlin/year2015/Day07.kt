@@ -9,7 +9,7 @@ class Day07 {
         val value: Long by lazy { op(left?.value, right?.value) }
     }
 
-    private fun buildGraph(input: String) = buildMap<String, Node> {
+    private fun buildGraph(input: String) = buildMap {
         input.lines().forEach { line ->
             val (source, dest) = line.split(" -> ")
             val node = computeIfAbsent(dest, ::Node)

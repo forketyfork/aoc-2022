@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.1.21"
+    alias(libs.plugins.kotlin.jvm)
 }
 
 repositories {
@@ -10,18 +10,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.12.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.12.2")
-    testImplementation("org.assertj:assertj-core:3.27.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.bundles.junit)
+    testImplementation(libs.assertj.core)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 tasks {
-
-    wrapper {
-        gradleVersion = "8.14"
-    }
 
     test {
         useJUnitPlatform()
@@ -35,12 +30,12 @@ tasks {
 
 tasks.withType<KotlinCompile> {
     compilerOptions {
-        languageVersion.set(KotlinVersion.KOTLIN_2_1)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
     }
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 }
