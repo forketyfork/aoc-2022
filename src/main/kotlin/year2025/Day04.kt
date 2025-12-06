@@ -11,14 +11,13 @@ class Day04 {
     fun part2(input: String): Int {
         val grid = CharGrid(input)
         return generateSequence {
-            val toRemove = grid.accessible().toList()
-            if (toRemove.isEmpty()) {
-                null
-            } else {
-                toRemove.forEach { point ->
-                    grid[point] = '.'
+            with(grid.accessible().toList()) {
+                if (isEmpty()) {
+                    null
+                } else {
+                    forEach { grid[it] = '.' }
+                    size
                 }
-                toRemove.size
             }
         }.sum()
     }
