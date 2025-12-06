@@ -12,14 +12,10 @@ class Day04 {
         val grid = CharGrid(input)
         return generateSequence {
             with(grid.accessible().toList()) {
-                if (isEmpty()) {
-                    null
-                } else {
-                    forEach { grid[it] = '.' }
-                    size
-                }
+                forEach { grid[it] = '.' }
+                size
             }
-        }.sum()
+        }.takeWhile { it > 0 }.sum()
     }
 
     fun CharGrid.accessible(): Sequence<Point2D> = pointSequence().filter { point ->
