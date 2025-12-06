@@ -14,8 +14,8 @@ class Day02 {
 
     private fun LongRange.findInvalidIdsPart1() = filter {
         val string = it.toString()
-        string.length.isEven()
-                && string.take(string.length / 2) == string.takeLast(string.length / 2)
+        val len = string.length shr 1
+        string.length.isEven() && string.take(len) == string.takeLast(len)
     }
 
     private fun LongRange.findInvalidIdsPart2() = filter {
