@@ -6,24 +6,9 @@ import kotlinx.coroutines.runBlocking
 import utils.Direction
 import utils.Direction.LEFT
 import utils.Direction.RIGHT
+import utils.Op
 
 class Day21 {
-
-    enum class Op(
-        val char: Char,
-        val operation: (Long, Long) -> Long,
-        val leftReverse: (Long, Long) -> Long,
-        val rightReverse: (Long, Long) -> Long
-    ) {
-        ADD('+', { a, b -> a + b }, { a, b -> a - b }, { a, b -> a - b }),
-        SUB('-', { a, b -> a - b }, { a, b -> a + b }, { a, b -> b - a }),
-        DIV('/', { a, b -> a / b }, { a, b -> a * b }, { a, b -> b / a }),
-        MUL('*', { a, b -> a * b }, { a, b -> a / b }, { a, b -> a / b });
-
-        companion object {
-            fun fromChar(char: Char): Op = entries.find { it.char == char }!!
-        }
-    }
 
     class Node(val name: String) {
 
