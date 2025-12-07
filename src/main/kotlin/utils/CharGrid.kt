@@ -7,6 +7,9 @@ class CharGrid(val input: String) {
     private val grid = input.lines().map { it.toCharArray() }
     private val marks = input.lines().map { BitSet(it.length) }
 
+    val height = grid.size
+    val width = grid[0].size
+
     fun pointSequence(): Sequence<Point2D> = generateSequence(Point2D(0, 0)) {
         if (it.x == grid[it.y].lastIndex) {
             if (it.y == grid.lastIndex) {
